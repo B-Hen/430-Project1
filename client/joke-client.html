@@ -1,0 +1,197 @@
+<html>
+  <head>
+    <title>Joke Client</title>
+    <link href="default-styles.css" type="text/css" rel="stylesheet" />
+    <style>
+      header{
+        background-color:pink;
+        color: yellow;
+        font-size:2em;
+        padding:1em;
+      }
+      
+      h1{
+        font-family: fantasy;
+        filter: drop-shadow(5px 5px 2px #4444dd);
+      }
+      
+      .results {
+        position: relative;
+        height: 150px;
+        width: 150px;
+        float: left;
+        border:5px solid #192A51;
+        border-radius: 10px;
+        padding:5px;
+        margin-left:13px;
+        margin-bottom:10px;
+        background-color: #F5E6E8;
+      }
+
+    .results span{
+        font-size:15px;
+        display:flex;
+        flex-direction: column;
+      }
+
+    section{
+      display: flex;
+      flex-direction: column;
+    }
+
+    </style>
+    <script>
+      const handleResponse = (e) => {
+          console.log("e.target =", e.target); //here e.targte is the xhr object
+          console.log("e.target.response = ", e.targetResponse); //so that means this is a string of "joke" JSON
+          const obj = JSON.parse(e.target.response); // turn it bak into an object
+          console.log("obj=", obj);
+          console.log(obj.length);
+
+
+        if(obj.length > 1)
+          {
+            document.querySelector("#jokesContainer").innerHTML = `
+            <div class="results">
+            <span>Item: ${obj[1].item}</span>
+            <span>Cost: ${obj[1].cost}</span>
+            <span>Type: ${obj[1].type}</span>
+            <span>Necessary: ${obj[1].necessary}</span>
+            </div>
+            <div class="results">
+            <span>Item: ${obj[2].item}</span>
+            <span>Cost: ${obj[2].cost}</span>
+            <span>Type: ${obj[2].type}</span>
+            <span>Necessary: ${obj[2].necessary}</span>
+            </div>
+            <div class="results">
+            <span>Item: ${obj[3].item}</span>
+            <span>Cost: ${obj[3].cost}</span>
+            <span>Type: ${obj[3].type}</span>
+            <span>Necessary: ${obj[3].necessary}</span>
+            </div>
+            <div class="results">
+            <span>Item: ${obj[4].item}</span>
+            <span>Cost: ${obj[4].cost}</span>
+            <span>Type: ${obj[4].type}</span>
+            <span>Necessary: ${obj[4].necessary}</span>
+            </div>
+            <div class="results">
+            <span>Item: ${obj[5].item}</span>
+            <span>Cost: ${obj[5].cost}</span>
+            <span>Type: ${obj[5].type}</span>
+            <span>Necessary: : ${obj[5].necessary}</span>
+            </div>
+            `;
+          }
+          else if(obj.length = 7)
+          {
+            //now go ahead and update #jokeContainer with the content of the joke
+            document.querySelector("#jokeContainer").innerHTML = `
+              <p>Budget: ${obj[0].budget}</p>
+            `;
+          }
+      };
+
+      const downloadJoke = (e) => {
+        // remember that an `Event` object gets passed along every time that an event handler or listener calls a function
+        // the `target` property of that event points at the element that sent the event, in this case a button
+        console.log(`An element of id=${e.target.id} was clicked!`);
+
+        const jokeURL = "/random-joke";
+        const jokesURL ="/random-jokes?limit=6";
+        const xhr = new XMLHttpRequest();
+        xhr.onload = handleResponse;
+
+        if(e.target.id == "btnJoke"){
+            xhr.open("GET", jokeURL);
+        } else if(e.target.id == "btnJokes"){
+            xhr.open("GET", jokesURL);
+        }
+
+        //with XHR,, after we open a connection, but before we 'send()' we can set 1 or more HTTP request ehaders
+        //this isn't stickly neccessary because "/random-joke" send JSON by defualt
+        xhr.setRequestHeader('Accept', 'application/javascript');
+        xhr.send();
+      };
+
+      const handleBudgetResponse = (xhr) => {
+        parseJson(xhr)
+      }
+
+      const sendPost = (e, budgetForm) => {
+			e.preventDefault();
+			
+			const budgetAction = budgetForm.getAttribute("action");
+			const budgetMethod = budgetForm.getAttribute("method");
+			
+			const budgetField = budgetForm.querySelector("#changeBudgetText");
+			
+			const xhr = new XMLHttpRequest();
+			xhr.open(budgetMethod,budgetAction); 
+			
+			xhr.setRequestHeader('Accept','application/json');
+			xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+			
+			xhr.onload = () => handleBudgetResponse(xhr);
+			
+			const formData = `budget=${budgetField}`;
+			xhr.send(formData); 
+			
+			return false; // prevents event bubbling
+    };
+      
+      const init = () => {
+         // An Event *Handler*
+        // document.querySelector("#btnJoke").onclick = downloadJoke; // same as below, less typing, use which ever version you prefer
+      
+        // An Event *Listener*
+        document.querySelector("#btnJoke").addEventListener("click", downloadJoke);
+      
+        // **Actually, event handlers and listeners are NOT exactly the same in all use cases - what ARE the differences?**
+        document.querySelector("#btnJokes").addEventListener("click", downloadJoke);
+
+        const budgetForm = document.querySelector('#"changeBudgetForm');
+
+        const changeBudget = (e) => sendPost(e, newForm);
+
+        budgetForm.addEventListener('submit', changeBudget);
+      };
+      
+      window.onload = init;
+     
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>Budget Tracker</h1>
+    </header>
+    
+    <section>
+      <h2>Show me my Budget:</h2>
+      <p><button id="btnJoke">Show me a Joke!</button></p>
+      <div id="jokeContainer">
+        
+      </div>
+    </section> <hr>
+    
+    <section>
+      <h2>Show me my spending:</h2>
+      <p><button id="btnJokes">Show me 5 Jokes!</button></p>
+      <div id="jokesContainer">
+
+      </div>
+    </section> <hr>
+
+    <section>
+      <h2>Change Budget</h2>
+      <form id="changeBudgetForm" action="/addBudget" method="post">
+        <label for="Budget">Budget: </label>
+        <input id="changeBudgetText" type="number" name="Budget" min="0" max="1000000" step="1"/>
+        <input type="submit" value="Change Budget"/>
+      </form>
+      <p>Go to <a href="/getBudget">/getBudget</a> to see the budget</p>
+    </section>
+    
+  </body>
+</html>

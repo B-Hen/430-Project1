@@ -2,15 +2,51 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Add</title>
+        <title>Edit</title>
         <link rel="stylesheet"  type="text/css" href="default-styles.css"/>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
     </head>
+    <style>
+        label {
+            display: flex;
+
+            flex-direction: column;
+        }
+    </style>
     <body>
-        <h1>Add Page</h1>
+        <ul id ="topnav">
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/app.html">App</a></li>
+            <li><a href="/add.html">Edit</a></li>
+            <li><a href="/admin.html">Admin</a></li>
+        </ul>
+
+        <h1>Edit</h1>
         <hr>
-        <p>Here User will be able to change budget or add new spending (Take the change budget form from APP page an put here)</p>
-        <p>Budget <a href="/random-joke">/random-joke</a> Spending <a href="/random-jokes?limit=10">/random-jokes?limit=10</a> App <a href="/app.html">app.html</a> Add <a href="/add.html">/add.html</a> Admin <a href="/admin.html">/admin.html</a> home <a href="/index.html">/index.html</a></p>
+        <section>
+            <h2>Change Budget</h2>
+            <form id="changeBudgetForm" action="/addBudget" method="post">
+              <label for="Budget">Budget: </label>
+              <input id="changeBudgetText" type="number" name="Budget" min="0" max="1000000" step="1"/>
+              <input type="submit" value="Change Budget"/>
+            </form>
+            <p>Go to <a href="/getBudget">/getBudget</a> to see the budget</p>
+        </section>
+
+        <section>
+            <h2>Add Expense</h2>
+            <form id="addExpense" action="/" method="post">
+              <label for="item">Item: </label>
+              <input id="itemText" type="text" name="item" value="Ex. Banana">
+              <label for="cost">Cost: </label>
+              <input id="costText" type="text" name="cost" value="Ex. 6.99">
+              <label for="type">Type: </label>
+              <input id="typeText" type="text" name="type" value="Ex. Food/Drink">
+              <label for="necessary">Necessary: </label>
+              <input id="necessaryText" type="text" name="necessary" value="Ex. Yes/No">
+              <input type="submit" value="Add Expense"/>
+            </form>
+          </section>
     </body>
 </html>

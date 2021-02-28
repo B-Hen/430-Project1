@@ -2,3 +2,28 @@
     font-family: 'Ubuntu', sans-serif;
 }
 
+#topnav{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-align: left;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    border: 1px solid black;
+}
+
+#topnav li{
+    float: left;
+}
+
+#topnav li a{
+    display: block;
+    text-align: center;
+    padding: 14px 14px;
+    text-decoration: none;
+    float: left;
+    font-size: 16px;
+}
+

@@ -22,6 +22,7 @@ const urlStruct = {
   '/': htmlHandler.getHomePage,
   '/add.html': htmlHandler.AddPage,
   '/admin.html': htmlHandler.getAdmin,
+  '/budget.jpg': htmlHandler.getPicture,
   notFound: htmlHandler.get404Response,
 };
 

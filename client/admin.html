@@ -2,15 +2,100 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Add</title>
+        <title>Admin</title>
         <link rel="stylesheet"  type="text/css" href="default-styles.css"/>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
     </head>
+    <style>
+        .results {
+          position: relative;
+          height: 150px;
+          width: 150px;
+          float: left;
+          border:1px solid black;
+          border-radius: 10px;
+          padding:5px;
+          margin-left:13px;
+          margin-bottom:10px;
+        }
+  
+      .results span{
+          font-size:15px;
+          display:flex;
+          flex-direction: column;
+        }
+  
+      section{
+        display: flex;
+        flex-direction: column;
+      }
+
+      .editButton{
+        position:absolute;
+        bottom: 0;
+        margin-bottom: 5px;
+      }
+
+  
+      </style>
+    <script>
+        "use strict";
+
+        const handleResponse = (xhr) => {
+          const obj = JSON.parse(xhr.target.response); // turn it bak into an object
+          console.log("obj=", obj);
+          console.log(obj.length);
+
+          let container = document.querySelector("#expenses");
+
+          for(let i = 1; i < obj.length; i++)
+          {
+              container.innerHTML += `
+              <div class="results">
+                <span>Item: ${obj[i].item}</span>
+                <span>Cost: ${obj[i].cost}</span>
+                <span>Type: ${obj[i].type}</span>
+                <span>Necessary: ${obj[i].necessary}</span>
+                <span><p><button class="editButton">Edit</button></p></span>
+                </div>
+             `
+          }
+      };
+
+        const downloadExpenses = () => {
+
+        const jokesURL ="/random-jokes?limit=10";
+        const xhr = new XMLHttpRequest();
+        xhr.onload = handleResponse;
+        xhr.open("GET", jokesURL);
+
+        //with XHR,, after we open a connection, but before we 'send()' we can set 1 or more HTTP request ehaders
+        //this isn't stickly neccessary because "/random-joke" send JSON by defualt
+        xhr.setRequestHeader('Accept', 'application/javascript');
+        xhr.send();
+      };
+
+        const init = () => {
+            downloadExpenses();
+       };
+     
+       window.onload = init;
+    </script>
     <body>
+        <ul id ="topnav">
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/app.html">App</a></li>
+            <li><a href="/add.html">Edit</a></li>
+            <li><a href="/admin.html">Admin</a></li>
+        </ul>
+
         <h1>Admin</h1>
         <hr>
-        <p>List all spending habits here</p>
-        <p>Budget <a href="/random-joke">/random-joke</a> Spending <a href="/random-jokes?limit=10">/random-jokes?limit=10</a> App <a href="/app.html">app.html</a> Add <a href="/add.html">/add.html</a> Admin <a href="/admin.html">/admin.html</a> home <a href="/index.html">/index.html</a></p>
+        <section>
+            <div id="expenses">
+
+            </div>
+        </section>
     </body>
 </html>

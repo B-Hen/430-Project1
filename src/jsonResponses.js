@@ -138,7 +138,7 @@ const addBudget = (request, response, body) => {
   }
 
   // update or initialize values, as the case may be
-  jokes[0] = { budget: body.budget };
+  jokes[0].budget = body.budget;
 
   if (responseCode === 201) {
     responseJSON.message = 'Created Successfully';

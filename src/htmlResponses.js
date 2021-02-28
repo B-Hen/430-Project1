@@ -1,8 +1,12 @@
+const { ADDRGETNETWORKPARAMS } = require('dns');
 const fs = require('fs'); // pull in the file system module
 
 const errorPage = fs.readFileSync(`${__dirname}/../client/error.html`);
 const CSS = fs.readFileSync(`${__dirname}/../client/default-styles.css`);
-const jokes = fs.readFileSync(`${__dirname}/../client/joke-client.html`);
+const app = fs.readFileSync(`${__dirname}/../client/app.html`);
+const home = fs.readFileSync(`${__dirname}/../client/index.html`);
+const add = fs.readFileSync(`${__dirname}/../client/add.html`);
+const admin = fs.readFileSync(`${__dirname}/../client/admin.html`);
 
 const get404Response = (request, response) => {
   response.writeHead(404, { 'Content-Type': 'text/html' }); // send response headers
@@ -18,10 +22,31 @@ const getCSS = (request, response) => {
 
 const getJokes = (request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html' }); // send response headers
-  response.write(jokes); // send content
+  response.write(app); // send content
+  response.end();
+};
+
+const getHomePage = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/html' }); // send response headers
+  response.write(home); // send content
+  response.end();
+};
+
+const AddPage = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/html' }); // send response headers
+  response.write(add); // send content
+  response.end();
+};
+
+const getAdmin = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/html' }); // send response headers
+  response.write(admin); // send content
   response.end();
 };
 
 module.exports.get404Response = get404Response;
 module.exports.getCSS = getCSS;
 module.exports.getJokes = getJokes;
+module.exports.getHomePage = getHomePage;
+module.exports.AddPage = AddPage;
+module.exports.getAdmin = getAdmin;

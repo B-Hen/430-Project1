@@ -17,7 +17,11 @@ const urlStruct = {
   '/random-jokes': jsonHandler.getRandomJokeResponse,
   '/getBudget': jsonHandler.getBudget,
   '/default-styles.css': htmlHandler.getCSS,
-  '/joke-client.html': htmlHandler.getJokes,
+  '/app.html': htmlHandler.getJokes,
+  '/index.html': htmlHandler.getHomePage,
+  '/': htmlHandler.getHomePage,
+  '/add.html': htmlHandler.AddPage,
+  '/admin.html': htmlHandler.getAdmin,
   notFound: htmlHandler.get404Response,
 };
 

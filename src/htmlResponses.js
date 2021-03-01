@@ -46,7 +46,7 @@ const getAdmin = (request, response) => {
 };
 
 const getPicture = (request, response) => {
-  response.writeHead(200, { 'Content-Type': 'image/jpg'}); // send response headers
+  response.writeHead(200, { 'Content-Type': 'image/jpg' }); // send response headers
   response.write(picture); // send content
   response.end();
 };

@@ -116,12 +116,12 @@
 			const budgetAction = budgetForm.getAttribute("action");
 			const budgetMethod = budgetForm.getAttribute("method");
 			
-			const budgetField = budgetForm.querySelector("#changeBudgetText");
+			const budgetField = budgetForm.querySelector("#changeBudgetText").value;
 			
 			const xhr = new XMLHttpRequest();
 			xhr.open(budgetMethod,budgetAction); 
 			
-			xhr.setRequestHeader('Accept','application/json');
+			xhr.setRequestHeader('Accept','application/javascript');
 			xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 			
 			xhr.onload = () => handleBudgetResponse;

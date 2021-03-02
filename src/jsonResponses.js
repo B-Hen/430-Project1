@@ -148,8 +148,34 @@ const addBudget = (request, response, body) => {
   return respondJSONMeta(request, response, responseCode); // this is for 204, a "no content" header
 };
 
+// method to add expesive
+const addExpense = (request, response, body) => {
+  const responseJSON = {
+    message: 'You need to add all the parameters!',
+  };
+
+  // if parameter not passed in
+  if (!body.item || !body.cost || !body.type || !body.necessary) {
+    responseJSON.id = 'missingParams';
+    return respondJSON(request, response, 400, responseJSON);
+  }
+
+  // if we did get all them
+  const responseCode = 201;
+
+  jokes.push({
+    item: body.item, cost: body.cost, type: body.type, necessary: body.necessary,
+  });
+  if (responseCode === 201) {
+    responseJSON.message = 'Created Successfully';
+    return respondJSON(request, response, responseCode, responseJSON);
+  }
+  return respondJSONMeta(request, response, responseCode); // this is for 204 a no content header
+};
+
 module.exports = {
   getRandomJokeResponse,
   getBudget,
   addBudget,
+  addExpense,
 };

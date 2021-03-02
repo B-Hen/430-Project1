@@ -36,66 +36,58 @@
           console.log("obj=", obj);
           console.log(obj.length);
 
+          let bigString = "";
 
-        if(obj.length > 1)
+          let container = document.querySelector("#jokesContainer");
+
+          let line = "";
+ 
+          if(obj.length > 1) 
           {
-            document.querySelector("#jokesContainer").innerHTML = `
-            <div class="results">
-            <span>Item: ${obj[1].item}</span>
-            <span>Cost: ${obj[1].cost}</span>
-            <span>Type: ${obj[1].type}</span>
-            <span>Necessary: ${obj[1].necessary}</span>
-            </div>
-            <div class="results">
-            <span>Item: ${obj[2].item}</span>
-            <span>Cost: ${obj[2].cost}</span>
-            <span>Type: ${obj[2].type}</span>
-            <span>Necessary: ${obj[2].necessary}</span>
-            </div>
-            <div class="results">
-            <span>Item: ${obj[3].item}</span>
-            <span>Cost: ${obj[3].cost}</span>
-            <span>Type: ${obj[3].type}</span>
-            <span>Necessary: ${obj[3].necessary}</span>
-            </div>
-            <div class="results">
-            <span>Item: ${obj[4].item}</span>
-            <span>Cost: ${obj[4].cost}</span>
-            <span>Type: ${obj[4].type}</span>
-            <span>Necessary: ${obj[4].necessary}</span>
-            </div>
-            <div class="results">
-            <span>Item: ${obj[5].item}</span>
-            <span>Cost: ${obj[5].cost}</span>
-            <span>Type: ${obj[5].type}</span>
-            <span>Necessary: ${obj[5].necessary}</span>
-            </div>
-            `;
+            for(let i = obj.length - 1; i > 0; i--)
+            {
+              line = `
+              <div class="results">
+              <span>Item: ${obj[i].item}</span>
+              <span>Cost: ${obj[i].cost}</span>
+              <span>Type: ${obj[i].type}</span>
+              <span>Necessary: ${obj[i].necessary}</span>
+              </div>
+              `;
+
+              bigString += line;
+            }
+
+            container.innerHTML = bigString;
           }
-          else if(obj.length = 7)
+          else if(obj.length = 1)
           {
-            //now go ahead and update #jokeContainer with the content of the joke
-            document.querySelector("#jokeContainer").innerHTML = `
-              <p>Budget: ${obj[0].budget}</p>
-            `;
+            container.innerHTML = "You have no expense! Go enter some!";
+
           }
       };
 
-      const downloadJoke = (e) => {
+      const handleBudget = (e) => {
+        console.log("e.target =", e.target); //here e.targte is the xhr object
+          console.log("e.target.response = ", e.targetResponse); //so that means this is a string of "joke" JSON
+          const obj = JSON.parse(e.target.response); // turn it bak into an object
+          console.log("obj=", obj);
+          console.log(obj.length);
+
+          let container = document.querySelector("#jokeContainer").innerHTML = `
+            <span>Budget: ${obj[0].budget}</span>
+            `;
+      }
+
+      const downloadExpense = (e) => {
         // remember that an `Event` object gets passed along every time that an event handler or listener calls a function
         // the `target` property of that event points at the element that sent the event, in this case a button
         console.log(`An element of id=${e.target.id} was clicked!`);
 
-        const jokeURL = "/random-joke";
-        const jokesURL ="/random-jokes?limit=6";
+        const jokesURL ="/random-jokes?limit=1000000000";
         const xhr = new XMLHttpRequest();
         xhr.onload = handleResponse;
-
-        if(e.target.id == "btnJoke"){
-            xhr.open("GET", jokeURL);
-        } else if(e.target.id == "btnJokes"){
-            xhr.open("GET", jokesURL);
-        }
+        xhr.open("GET", jokesURL);
 
         //with XHR,, after we open a connection, but before we 'send()' we can set 1 or more HTTP request ehaders
         //this isn't stickly neccessary because "/random-joke" send JSON by defualt
@@ -103,50 +95,31 @@
         xhr.send();
       };
 
-      const handleBudgetResponse = (e) => {
-        const xhr = e.target;
+      const downloadBudget = (e) => {
+        // remember that an `Event` object gets passed along every time that an event handler or listener calls a function
+        // the `target` property of that event points at the element that sent the event, in this case a button
+        console.log(`An element of id=${e.target.id} was clicked!`);
 
-        const obj = xhr.response && JSON.parse(xhr.response);
-        console.dir(obj);
-      }
+        const jokeURL = "/random-joke";
+        const xhr = new XMLHttpRequest();
+        xhr.onload = handleBudget;
+        xhr.open("GET", jokeURL);
 
-      const sendPost = (e, budgetForm) => {
-			e.preventDefault();
-			
-			const budgetAction = budgetForm.getAttribute("action");
-			const budgetMethod = budgetForm.getAttribute("method");
-			
-			const budgetField = budgetForm.querySelector("#changeBudgetText").value;
-			
-			const xhr = new XMLHttpRequest();
-			xhr.open(budgetMethod,budgetAction); 
-			
-			xhr.setRequestHeader('Accept','application/javascript');
-			xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-			
-			xhr.onload = () => handleBudgetResponse;
-			
-			const formData = `budget=${budgetField}`;
-			xhr.send(formData); 
-			
-			return false; // prevents event bubbling
-    };
+        //with XHR,, after we open a connection, but before we 'send()' we can set 1 or more HTTP request ehaders
+        //this isn't stickly neccessary because "/random-joke" send JSON by defualt
+        xhr.setRequestHeader('Accept', 'application/javascript');
+        xhr.send();
+      };
       
       const init = () => {
          // An Event *Handler*
         // document.querySelector("#btnJoke").onclick = downloadJoke; // same as below, less typing, use which ever version you prefer
       
         // An Event *Listener*
-        document.querySelector("#btnJoke").addEventListener("click", downloadJoke);
+        document.querySelector("#btnJoke").addEventListener("click", downloadBudget);
       
         // **Actually, event handlers and listeners are NOT exactly the same in all use cases - what ARE the differences?**
-        document.querySelector("#btnJokes").addEventListener("click", downloadJoke);
-
-        const budgetForm = document.querySelector('#changeBudgetForm');
-
-        const changeBudget = (e) => sendPost(e, budgetForm);
-
-        budgetForm.addEventListener('submit', changeBudget);
+        document.querySelector("#btnJokes").addEventListener("click", downloadExpense);
       };
       
       window.onload = init;
@@ -179,16 +152,6 @@
 
       </div>
     </section> <hr>
-
-    <section>
-      <h2>Change Budget</h2>
-      <form id="changeBudgetForm" action="/addBudget" method="post">
-        <label for="Budget">Budget: </label>
-        <input id="changeBudgetText" type="number" name="Budget" min="0" max="1000000" step="1"/>
-        <input type="submit" value="Change Budget"/>
-      </form>
-      <p>Go to <a href="/getBudget">/getBudget</a> to see the budget</p>
-    </section>
     
   </body>
 </html>

@@ -47,6 +47,26 @@ const handlePost = (request, response, parsedUrl) => {
 
       jsonHandler.addBudget(request, response, bodyParams);
     });
+  } else if (parsedUrl.pathname === '/addExpense') {
+    const body = [];
+
+    // https://nodejs.org/api/http.html
+    request.on('error', (err) => {
+      console.dir(err);
+      response.statusCode = 400;
+      response.end();
+    });
+
+    request.on('data', (chunk) => {
+      body.push(chunk);
+    });
+
+    request.on('end', () => {
+      const bodyString = Buffer.concat(body).toString();
+      const bodyParams = query.parse(bodyString);
+
+      jsonHandler.addExpense(request, response, bodyParams);
+    });
   }
 };
 

@@ -143,14 +143,13 @@ const addExpense = (request, response, body) => {
   // if we did get all them
   const responseCode = 201;
 
-  if(budget.length === 0) budget.push({budget: "You don't have a budget. Go enter one on the Edit Page!"});
+  if (budget.length === 0) budget.push({ budget: "You don't have a budget. Go enter one on the Edit Page!" });
   budget.push({
     item: body.item, cost: body.cost, type: body.type, necessary: body.necessary,
   });
-  if (responseCode === 201) {
-    responseJSON.message = 'Created Successfully';
-    return respondJSON(request, response, responseCode, responseJSON);
-  }
+
+  responseJSON.message = 'Created Successfully';
+  return respondJSON(request, response, responseCode, responseJSON);
 };
 
 module.exports = {

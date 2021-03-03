@@ -104,7 +104,7 @@
               leftOver = (Number(obj[0].budget)) - totalUsed;
 
               container.innerHTML = `
-              <span>Budget: ${obj[0].budget} Total Spent: ${totalUsed} Money left to spend: ${leftOver}</span>
+              <span>Budget: $${obj[0].budget} Total Spent: $${totalUsed} Money left to spend: $${leftOver}</span>
               `;
             }
           }
@@ -132,10 +132,10 @@
         xhr.send();
       };
 
-      const downloadBudget = (e) => {
+      const downloadBudget = () => {
         // remember that an `Event` object gets passed along every time that an event handler or listener calls a function
         // the `target` property of that event points at the element that sent the event, in this case a button
-        console.log(`An element of id=${e.target.id} was clicked!`);
+        //console.log(`An element of id=${e.target.id} was clicked!`);
 
         const jokeURL = "/random-joke";
         const jokesURL = "random-jokes?limit=1000000000"
@@ -154,7 +154,7 @@
         // document.querySelector("#btnJoke").onclick = downloadJoke; // same as below, less typing, use which ever version you prefer
       
         // An Event *Listener*
-        document.querySelector("#btnJoke").addEventListener("click", downloadBudget);
+        downloadBudget();
       
         // **Actually, event handlers and listeners are NOT exactly the same in all use cases - what ARE the differences?**
         document.querySelector("#btnJokes").addEventListener("click", downloadExpense);
@@ -177,7 +177,6 @@
     
     <section>
       <h2>Show me my Budget:</h2>
-      <p><button id="btnJoke">Show me my budget</button></p>
       <div id="jokeContainer">
         
       </div>

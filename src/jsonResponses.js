@@ -151,7 +151,6 @@ const addExpense = (request, response, body) => {
     responseJSON.message = 'Created Successfully';
     return respondJSON(request, response, responseCode, responseJSON);
   }
-  return respondJSONMeta(request, response, responseCode); // this is for 204 a no content header
 };
 
 module.exports = {

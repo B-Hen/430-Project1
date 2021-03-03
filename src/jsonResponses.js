@@ -1,26 +1,8 @@
 // array of jokes
 const _ = require('underscore');
 
-const jokes = [
-  { budget: '100' },
-  {
-    item: 'Monster Mango Juice Case', cost: '6.99', type: 'Food/Drink', necessary: 'No',
-  },
-  {
-    item: 'banana', cost: '0.99', type: 'Food/Drink', necessary: 'No',
-  },
-  {
-    item: 'Jujutsu Kasien Vol. 8', cost: '8.99', type: 'Book', necessary: 'No',
-  },
-  {
-    item: 'Case of Water', cost: '25.99', type: 'Food/Drink', necessary: 'Yes',
-  },
-  {
-    item: 'Rice', cost: '6.99', type: 'Food/Drink', necessary: 'Yes',
-  },
-  {
-    item: 'Dish Soap', cost: '3.65', type: 'Cleaning Supply', necessary: 'yes',
-  },
+const budget = [
+
 ];
 
 // function to get jokes for JSON
@@ -29,20 +11,20 @@ const getRandomJokeJSON = (numberOfJokes) => {
   let limit = Number(numberOfJokes); // cast 'limit' to a Number
   limit = !limit ? 1 : limit; // if limit is not a number because it is the "falsy" NAN default to 1
   limit = limit < 1 ? 1 : limit; // if limit is less than 1 default it to 1
-  limit = limit > jokes.length ? jokes.length : limit; // make limit length
+  limit = limit > budget.length ? budget.length : limit; // make limit length
 
   // next shuffel the jokes in the array and sav to new array
   // const jokes2 = _.shuffle(jokes);
 
-  const jokes3 = []; // new array to reutrn
+  const budget3 = []; // new array to reutrn
 
   // loop through and add the jokes to the array that will be returned
   for (let i = 0; i < limit; i++) {
-    jokes3[i] = jokes[i];
+    budget3[i] = budget[i];
   }
 
   // return the array as JSON
-  return JSON.stringify(jokes3);
+  return JSON.stringify(budget3);
 };
 
 // function to get jokes for XML
@@ -51,21 +33,21 @@ const getRandomJokeXML = (numberOfJokes) => {
   let limit = Number(numberOfJokes); // cast 'limit' to a Number
   limit = !limit ? 1 : limit; // if limit is not a number because it is the "falsy" NAN default to 1
   limit = limit < 1 ? 1 : limit; // if limit is less than 1 default it to 1
-  limit = limit > jokes.length ? jokes.length : limit; // make limit length
+  limit = limit > budget.length ? budget.length : limit; // make limit length
 
   // next shuffel the jokes in the array and sav to new array
-  const jokes2 = _.shuffle(jokes);
+  // const jokes2 = _.shuffle(jokes);
 
-  const jokes3 = []; // new array to reutrn
+  const budget3 = []; // new array to reutrn
 
   // loop through and add the jokes to the array that will be returned
   for (let i = 0; i < limit; i++) {
-    jokes3[i] = `<joke><q>${jokes2[i].q}</q><a>${jokes2[i].a}</a></joke>`;
+    budget3[i] = `<joke><q>${budget[i].q}</q><a>${budget[i].a}</a></joke>`;
   }
 
-  if (limit === 1) return jokes3[0];
+  if (limit === 1) return budget3[0];
 
-  return `<jokes>${jokes3}</jokes>`;
+  return `<jokes>${budget3}</jokes>`;
 };
 
 // Source: https://stackoverflow.com/questions/2219526/how-many-bytes-in-a-javascript-string/29955838
@@ -95,8 +77,6 @@ const getRandomJokeResponse = (request, response, params = 1, acceptedTypes = 'a
   }
 };
 
-const budget = {};
-
 const respondJSON = (request, response, status, object) => {
   response.writeHead(status, { 'Content-Type': 'application/json' });
   response.write(JSON.stringify(object));
@@ -114,7 +94,7 @@ const getBudget = (request, response) => {
     budget,
   };
 
-  respondJSON(request, response, 200, jokes[0]);
+  respondJSON(request, response, 200, budget[0]);
 };
 
 // method to add a budget
@@ -131,14 +111,14 @@ const addBudget = (request, response, body) => {
 
   // we DID get a budget
   let responseCode = 201; // "created"
-  if (jokes[0].budget !== body.budget) { // update
+  if (budget[0] === null) { // update
     responseCode = 204;
   } else {
-    jokes[0] = { budget: '' }; // make a new budget
+    budget[0] = { budget: '' }; // make a new budget
   }
 
   // update or initialize values, as the case may be
-  jokes[0].budget = body.budget;
+  budget[0].budget = body.budget;
 
   if (responseCode === 201) {
     responseJSON.message = 'Created Successfully';
@@ -163,7 +143,8 @@ const addExpense = (request, response, body) => {
   // if we did get all them
   const responseCode = 201;
 
-  jokes.push({
+  if(budget.length === 0) budget.push({budget: "You don't have a budget. Go enter one on the Edit Page!"});
+  budget.push({
     item: body.item, cost: body.cost, type: body.type, necessary: body.necessary,
   });
   if (responseCode === 201) {

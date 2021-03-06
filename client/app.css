@@ -53,6 +53,17 @@ section, h1{
     margin-right: 3vw;
 }
 
+.results{
+    margin-top: 3vh;
+    padding-right: 2vw;
+    transition: transform .3s;
+}
+
+.results:hover{
+     transform: scale(1.1); 
+     box-shadow: -5px 10px #095256;
+}
+
 
 
 

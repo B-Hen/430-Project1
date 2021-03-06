@@ -17,6 +17,7 @@ const urlStruct = {
   '/random-jokes': jsonHandler.getRandomJokeResponse,
   '/getBudget': jsonHandler.getBudget,
   '/default-styles.css': htmlHandler.getCSS,
+  '/app.css': htmlHandler.getAppCSS,
   '/app.html': htmlHandler.getJokes,
   '/index.html': htmlHandler.getHomePage,
   '/': htmlHandler.getHomePage,

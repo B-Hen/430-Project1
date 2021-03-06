@@ -1,0 +1,58 @@
+*{
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #087F8C;
+}
+
+#topnav{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-align: left;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    border: 5px solid #095256;
+    background-color: #5AAA95;
+    border-radius: 2vw;
+}
+
+#topnav li{
+    float: left;
+}
+
+#topnav li a{
+    display: block;
+    text-align: center;
+    padding: 14px 14px;
+    text-decoration: none;
+    float: left;
+    font-size: 16px;
+    background-color: #5AAA95;
+}
+
+body{
+    margin: 1vw;
+}
+
+#containter{
+    margin-top: 3vh;
+    background-color: #5AAA95;
+    border: 5px solid #095256;
+    border-radius: 5vw;
+    padding-top: 2vh;
+    padding-bottom: 5vh;
+}
+
+section, h2, h1, p, button, #jokeContainer, span, .results, #jokesContainer{
+    background-color: #5AAA95;
+}
+
+section, h1{
+    margin-left: 3vw;
+    margin-right: 3vw;
+}
+
+
+
+

@@ -2,7 +2,10 @@
 const _ = require('underscore');
 
 const budget = [
-
+  { budget: 1000 },
+  {
+    item: 'PS5', cost: 530.99, type: 'Game', necessary: 'No', index: 1,
+  },
 ];
 
 // function to get jokes for JSON
@@ -145,7 +148,11 @@ const addExpense = (request, response, body) => {
 
   if (budget.length === 0) budget.push({ budget: "You don't have a budget. Go enter one on the Edit Page!" });
   budget.push({
-    item: body.item, cost: body.cost, type: body.type, necessary: body.necessary,
+    item: body.item,
+    cost: body.cost,
+    type: body.type,
+    necessary: body.necessary,
+    index: budget.length,
   });
 
   responseJSON.message = 'Created Successfully';

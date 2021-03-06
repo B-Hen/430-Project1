@@ -37,7 +37,12 @@
         margin-bottom: 5px;
       }
 
-  
+      .deleteButton{
+        position:absolute;
+        bottom: 0;
+        margin-bottom: 5px;
+        margin-left: 50px;
+      }
       </style>
     <script>
         "use strict";
@@ -57,7 +62,7 @@
                 <span>Cost: ${obj[i].cost}</span>
                 <span>Type: ${obj[i].type}</span>
                 <span>Necessary: ${obj[i].necessary}</span>
-                <span><p><button class="editButton">Edit</button></p></span>
+                <span><button class="editButton">Edit</button><button class="deleteButton" id="${obj[i].index}">Delete</button></span>
                 </div>
              `
           }
@@ -65,7 +70,7 @@
 
         const downloadExpenses = () => {
 
-        const jokesURL ="/random-jokes?limit=10";
+        const jokesURL ="/random-jokes?limit=10000000000";
         const xhr = new XMLHttpRequest();
         xhr.onload = handleResponse;
         xhr.open("GET", jokesURL);

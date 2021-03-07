@@ -3,17 +3,10 @@
     <head>
         <meta charset="utf-8" />
         <title>Edit</title>
-        <link rel="stylesheet"  type="text/css" href="default-styles.css"/>
+        <link rel="stylesheet"  type="text/css" href="add.css"/>
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     </head>
-    <style>
-        label {
-            display: flex;
-
-            flex-direction: column;
-        }
-    </style>
     <script>
    "use strict";
     const handleResponse = (e) => {
@@ -111,14 +104,15 @@
             <li><a href="/admin.html">Admin</a></li>
         </ul>
 
+        <div id="container">
         <h1>Edit</h1>
-        <hr>
+     
         <section>
             <h2>Change Budget</h2>
             <form id="changeBudgetForm" action="/addBudget" method="post">
               <label for="Budget">Budget: </label>
-              <input id="changeBudgetText" type="number" name="Budget" min="0" max="1000000" step="1"/>
-              <input type="submit" value="Change Budget"/>
+              <input id="changeBudgetText" type="number" name="Budget" min="0" max="1000000" step="0.01"/>
+              <input class="submit" type="submit" value="Change Budget"/>
             </form>
             <div id="updateBudget">
 
@@ -129,15 +123,16 @@
             <h2>Add Expense</h2>
             <form id="addExpense" action="/addExpense" method="post">
               <label for="item">Item: </label>
-              <input id="itemText" type="text" name="item" value="Ex. Banana">
+              <input id="itemText" type="text" name="item" onfocus="this.value=''" value="Ex. Banana">
               <label for="cost">Cost: </label>
-              <input id="costText" type="text" name="cost" value="Ex. 6.99">
+              <input id="costText" type="number" name="cost" min="0" max="100000000000" step="0.01" value=0.99>
               <label for="type">Type: </label>
-              <input id="typeText" type="text" name="type" value="Ex. Food/Drink">
+              <input id="typeText" type="text" name="type" onfocus="this.value=''" value="Ex. Food/Drink">
               <label for="necessary">Necessary: </label>
-              <input id="necessaryText" type="text" name="necessary" value="Ex. Yes/No">
-              <input type="submit" value="Add Expense"/>
+              <input id="necessaryText" type="text" name="necessary" onfocus="this.value=''" value="Ex. Yes/No">
+              <input class="submit" type="submit" value="Add Expense"/>
             </form>
           </section>
+        </div>
     </body>
 </html>

@@ -1,9 +1,14 @@
 const { ADDRGETNETWORKPARAMS } = require('dns');
 const fs = require('fs'); // pull in the file system module
+const { getDefaultSettings } = require('http2');
 
 const errorPage = fs.readFileSync(`${__dirname}/../client/error.html`);
 const CSS = fs.readFileSync(`${__dirname}/../client/default-styles.css`);
 const appCSS = fs.readFileSync(`${__dirname}/../client/app.css`);
+const indexCSS = fs.readFileSync(`${__dirname}/../client/index.css`);
+const addCSS = fs.readFileSync(`${__dirname}/../client/add.css`);
+const adminCSS = fs.readFileSync(`${__dirname}/../client/admin.css`);
+const errorCSS = fs.readFileSync(`${__dirname}/../client/error.css`);
 const app = fs.readFileSync(`${__dirname}/../client/app.html`);
 const home = fs.readFileSync(`${__dirname}/../client/index.html`);
 const add = fs.readFileSync(`${__dirname}/../client/add.html`);
@@ -25,6 +30,30 @@ const getCSS = (request, response) => {
 const getAppCSS = (request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/css' }); // send response headers
   response.write(appCSS); // send content
+  response.end(); // close connection
+};
+
+const getIndexCSS = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/css' }); // send response headers
+  response.write(indexCSS); // send content
+  response.end(); // close connection
+};
+
+const getaddCSS = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/css' }); // send response headers
+  response.write(addCSS); // send content
+  response.end(); // close connection
+};
+
+const getAdminCSS = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/css' }); // send response headers
+  response.write(adminCSS); // send content
+  response.end(); // close connection
+};
+
+const getErrorCSS = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/css' }); // send response headers
+  response.write(errorCSS); // send content
   response.end(); // close connection
 };
 
@@ -66,3 +95,7 @@ module.exports.AddPage = AddPage;
 module.exports.getAdmin = getAdmin;
 module.exports.getPicture = getPicture;
 module.exports.getAppCSS = getAppCSS;
+module.exports.getIndexCSS = getIndexCSS;
+module.exports.getaddCSS = getaddCSS;
+module.exports.getAdminCSS = getAdminCSS;
+module.exports.getErrorCSS = getErrorCSS;

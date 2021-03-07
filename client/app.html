@@ -2,31 +2,8 @@
   <head>
     <title>Joke Client</title>
     <link href="app.css" type="text/css" rel="stylesheet" />
-    <style>
-      .results {
-        position: relative;
-        height: 150px;
-        width: 150px;
-        float: left;
-        border:1px solid black;
-        border-radius: 10px;
-        padding:5px;
-        margin-left:13px;
-        margin-bottom:10px;
-      }
-
-    .results span{
-        font-size:15px;
-        display:flex;
-        flex-direction: column;
-      }
-
-    section{
-      display: flex;
-      flex-direction: column;
-    }
-
-    </style>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     <script>
       "use strict";
       const handleResponse = (e) => {
@@ -104,14 +81,14 @@
               leftOver = (Number(obj[0].budget)) - totalUsed;
 
               container.innerHTML = `
-              <span>Budget: $${obj[0].budget} Total Spent: $${totalUsed} Money left to spend: $${leftOver}</span>
+              <span>Budget: $${obj[0].budget}   |   Total Spent: $${totalUsed.toFixed(2)}   |   Money left to spend: $${leftOver.toFixed(2)}</span>
               `;
             }
           }
           else if(obj.length = 1)
           {
             container.innerHTML = `
-            <span>Budget: ${obj[0].budget}</span>
+            <span>Budget: ${obj[0].budget.toFixed(2)}</span>
             `;
           }
       }
@@ -176,7 +153,6 @@
     <div id="containter">
     <h1>Budget Tracker</h1>
     <section>
-      <h2>Show me my Budget:</h2>
       <div id="jokeContainer">
         
       </div>

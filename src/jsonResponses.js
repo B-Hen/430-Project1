@@ -45,12 +45,16 @@ const getRandomJokeXML = (numberOfJokes) => {
 
   // loop through and add the jokes to the array that will be returned
   for (let i = 0; i < limit; i++) {
-    budget3[i] = `<joke><q>${budget[i].q}</q><a>${budget[i].a}</a></joke>`;
+    if(i === 0){
+      budget3[i] = `<budget>${budget[i].budget}<budget>`;
+    } else if (i > 0) {
+    budget3[i] = `<expense><item>${budget[i].item}</item><cost>${budget[i].cost}</cost><type>${budget[i].type}</type><necessary>${budget[i].necessary}</necessary></expense>`;
+    }
   }
 
   if (limit === 1) return budget3[0];
 
-  return `<jokes>${budget3}</jokes>`;
+  return `<expenses>${budget3}</expenses>`;
 };
 
 // Source: https://stackoverflow.com/questions/2219526/how-many-bytes-in-a-javascript-string/29955838

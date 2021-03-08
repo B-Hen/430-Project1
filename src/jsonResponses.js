@@ -2,10 +2,10 @@
 const _ = require('underscore');
 
 const budget = [
-  { budget: 1000 },
-  {
-    item: 'PS5', cost: 530.99, type: 'Game', necessary: 'No', index: 1,
-  },
+ // { budget: 1000 },
+ // {
+  //  item: 'PS5', cost: 530.99, type: 'Game', necessary: 'No', index: 1,
+ // },
 ];
 
 // function to get jokes for JSON
@@ -114,7 +114,7 @@ const addBudget = (request, response, body) => {
 
   // we DID get a budget
   let responseCode = 201; // "created"
-  if (budget[0] === null) { // update
+  if (budget.length !== 0 && budget[0] !== "You don't have a budget. Go enter one on the Edit Page!") { // update
     responseCode = 204;
   } else {
     budget[0] = { budget: '' }; // make a new budget
@@ -148,14 +148,23 @@ const addExpense = (request, response, body) => {
 
   if (budget.length === 0) budget.push({ budget: "You don't have a budget. Go enter one on the Edit Page!" });
   budget.push({
-    item: body.item,
-    cost: body.cost,
-    type: body.type,
-    necessary: body.necessary,
-    index: budget.length,
+    item: body.item, cost: body.cost, type: body.type, 
+    necessary: body.necessary, index: budget.length,
   });
 
   responseJSON.message = 'Created Successfully';
+  return respondJSON(request, response, responseCode, responseJSON);
+};
+
+const clearBudget = (request, response, body) =>{
+  const responseJSON = {
+    message: 'You need to add all the parameters!',
+  };
+  let responseCode = 200;
+  let tempBudget = budget[0];
+  budget.length = 0;
+  
+  budget[0] = tempBudget;
   return respondJSON(request, response, responseCode, responseJSON);
 };
 
@@ -164,4 +173,5 @@ module.exports = {
   getBudget,
   addBudget,
   addExpense,
+  clearBudget,
 };

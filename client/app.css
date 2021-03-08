@@ -121,6 +121,10 @@ button:active {
     font-size: 50px;
 }
 
+#jokeContainer p, #jokesContainer p {
+    font-size: 50px;
+}
+
 a:link{
     color: black;
 }
@@ -136,4 +140,5 @@ a:hover{
 a:active{
     color:#86A873;
 }
+
 

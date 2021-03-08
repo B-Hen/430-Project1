@@ -18,18 +18,24 @@
           let container = document.querySelector("#expenses");
 
           for(let i = 1; i < obj.length; i++)
-          {
+          { // //<button class="editButton">Edit</button>
               container.innerHTML += `
               <div class="results">
                 <span>Item: ${obj[i].item}</span>
                 <span>Cost: ${obj[i].cost}</span>
                 <span>Type: ${obj[i].type}</span>
                 <span>Necessary: ${obj[i].necessary}</span>
-                <span><button class="editButton">Edit</button><button class="deleteButton" id="${obj[i].index}">Delete</button></span>
+                <span><button class="deleteButton">Delete</button></span>
                 </div>
              `
           }
       };
+
+      const deleteExpHandle = (xhr) => {
+        const obj = JSON.parse(xhr.target.response); // turn it bak into an object
+          console.log("obj=", obj);
+          console.log(obj.length);
+      }
 
         const downloadExpenses = () => {
 
@@ -44,8 +50,42 @@
         xhr.send();
       };
 
+      const deleteExpense = (e) => {
+        //start by getting which expense to delete
+        if(e.target.clicked === true)
+        {
+          console.log("click");
+        }
+      }
+
+      const handleClear = (e) => {
+        document.querySelector("#expenses").innerHTML = "";
+      }
+
+      const clearAll = () => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = handleClear;
+        xhr.open("post", "/clear");
+
+        xhr.setRequestHeader('Accept','application/javascript');
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+        
+        const formData = `clear=true`;
+        xhr.send(formData); 
+
+        return false;
+      }
+
         const init = () => {
             downloadExpenses();
+            document.querySelector("#clear").addEventListener("click", clearAll);
+            // if(document.querySelector("#expenses").innerHTML.trim().length != 0){
+            //   console.log("Inside");
+
+            //   let expense = document.querySelectorAll(".deleteButton");
+            //   console.log(expense.length);
+            //   console.log(expense);
+            // }
        };
      
        window.onload = init;
@@ -61,9 +101,8 @@
         <div id="container">
         <h1>Admin</h1>
         <section>
-            <div id="expenses">
-
-            </div>
+            <div id="expenses"></div>
+            <button id="clear">Clear Expense</button>
         </section>
       </div>
     </body>

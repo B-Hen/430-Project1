@@ -28,6 +28,7 @@ const urlStruct = {
   '/add.html': htmlHandler.AddPage,
   '/admin.html': htmlHandler.getAdmin,
   '/budget.jpg': htmlHandler.getPicture,
+  '/clear': jsonHandler.clearBudget,
   notFound: htmlHandler.get404Response,
 };
 
@@ -72,7 +73,28 @@ const handlePost = (request, response, parsedUrl) => {
 
       jsonHandler.addExpense(request, response, bodyParams);
     });
-  }
+  } 
+  else if (parsedUrl.pathname === '/clear') {
+    const body = [];
+
+    // https://nodejs.org/api/http.html
+    request.on('error', (err) => {
+      console.dir(err);
+      response.statusCode = 400;
+      response.end();
+    });
+
+    request.on('data', (chunk) => {
+      body.push(chunk);
+    });
+
+    request.on('end', () => {
+      const bodyString = Buffer.concat(body).toString();
+      const bodyParams = query.parse(bodyString);
+
+      jsonHandler.clearBudget(request, response, bodyParams);
+    });
+  } 
 };
 
 // 7 - this is the function that will be called every time a client request comes in

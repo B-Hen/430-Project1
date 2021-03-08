@@ -124,3 +124,13 @@ input{
     border-radius: 3vw;
 }
 
+#updateBudget p, b{
+    font-size: 20px;
+    background-color: #5AAA95;
+}
+
+#updateExpense, p, b{
+    font-size: 20px;
+    background-color: #5AAA95;
+}
+

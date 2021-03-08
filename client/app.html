@@ -39,7 +39,7 @@
           }
           else if(obj.length = 1)
           {
-            container.innerHTML = "You have no expense! Go enter some on the Edit Page!";
+            container.innerHTML = "<p>You have no expense! Go enter some on the Edit Page!</p>";
 
           }
       };
@@ -55,7 +55,7 @@
 
           if(obj.length < 1)
           {
-            container.innerHTML =  "You don't have a budget. Go enter one on the Edit Page!";
+            container.innerHTML =  "<p>You don't have a budget. Go enter one on the Edit Page!</p>";
           }
           else if(obj.length > 1)
           {
@@ -81,14 +81,14 @@
               leftOver = (Number(obj[0].budget)) - totalUsed;
 
               container.innerHTML = `
-              <span>Budget: $${obj[0].budget}   |   Total Spent: $${totalUsed.toFixed(2)}   |   Money left to spend: $${leftOver.toFixed(2)}</span>
+              <span>Budget: $${Number(obj[0].budget).toFixed(2)}   |   Total Spent: $${totalUsed.toFixed(2)}   |   Money left to spend: $${leftOver.toFixed(2)}</span>
               `;
             }
           }
           else if(obj.length = 1)
           {
             container.innerHTML = `
-            <span>Budget: ${obj[0].budget.toFixed(2)}</span>
+            <span>Budget: ${Number(obj[0].budget).toFixed(2)}</span>
             `;
           }
       }

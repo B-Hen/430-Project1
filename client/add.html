@@ -13,21 +13,49 @@
         const xhr = e.target;
         const content = document.querySelector('#updateBudget');
         
+        console.log(xhr.status);
         switch(xhr.status){
         case 200:
-            content.innerHTML = '<b>Success!</b>';
+            content.innerHTML = '<p><b>Success!</b></p>';
             break;
         case 201:
-            content.innerHTML = '<b>Created!</b>';
+            content.innerHTML = '<p><b>Budget was Created!</b></p>';
             break;
         case 204:
-            content.innerHTML = '<b>Updated (No Content)!</b>';
+            content.innerHTML = '<p><b>Budget Updated!</b></p>';
             break;
         case 400:
-            content.innerHTML = '<b>Bad Request!</b>';
+            content.innerHTML = '<p><b>Bad Request!</b></p>';
             break;
         default:
-            content.innerHTML = '<b>Error code not implemented by client</b>';
+            content.innerHTML = '<p><b>Error code not implemented by client</b></p>';
+        }
+        
+        // make sure that something is in the .response property first!
+        const obj = xhr.response && JSON.parse(xhr.response);
+        console.dir(obj);
+    };
+
+    const handleExpense = (e) => {
+        const xhr = e.target;
+        const content = document.querySelector('#updateExpense');
+        
+        console.log(xhr.status);
+        switch(xhr.status){
+        case 200:
+            content.innerHTML = '<p><b>Success!</b></p>';
+            break;
+        case 201:
+            content.innerHTML = '<p><b>Expense was Created!</b></p>';
+            break;
+        case 204:
+            content.innerHTML = '<p><b>Expense Updated!</b></p>';
+            break;
+        case 400:
+            content.innerHTML = '<p><b>Bad Request!</b></p>';
+            break;
+        default:
+            content.innerHTML = '<p><b>Error code not implemented by client</b></p>';
         }
         
         // make sure that something is in the .response property first!
@@ -44,13 +72,12 @@
             const budgetField = budgetForm.querySelector("#changeBudgetText").value;
             
             const xhr = new XMLHttpRequest();
+            xhr.onload = handleResponse;
             xhr.open(budgetMethod,budgetAction); 
             
             xhr.setRequestHeader('Accept','application/javascript');
             xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-            
-            xhr.onload = () =>  handleResponse;
-            
+              
             const formData = `budget=${budgetField}`;
             xhr.send(formData); 	
     
@@ -69,12 +96,11 @@
         const necessaryField = budgetForm.querySelector('#necessaryText').value;
 
         const xhr = new XMLHttpRequest();
+        xhr.onload = handleExpense;
         xhr.open(budgetMethod,budgetAction);
 
         xhr.setRequestHeader('Accept','application/javascript');
         xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-        
-        xhr.onload = () =>  handleResponse;
         
         const formData = `item=${itemField}&cost=${costField}&type=${typeField}&necessary=${necessaryField}`;
         xhr.send(formData); 
@@ -132,6 +158,9 @@
               <input id="necessaryText" type="text" name="necessary" onfocus="this.value=''" value="Ex. Yes/No">
               <input class="submit" type="submit" value="Add Expense"/>
             </form>
+            <div id="updateExpense">
+
+            </div>
           </section>
         </div>
     </body>

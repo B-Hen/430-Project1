@@ -161,10 +161,11 @@ const clearBudget = (request, response, body) =>{
     message: 'You need to add all the parameters!',
   };
   let responseCode = 200;
-  let tempBudget = budget[0];
+  let tempBudget = budget[0].budget;
   budget.length = 0;
   
-  budget[0] = tempBudget;
+  budget[0] = { budget: '' };
+  budget[0].budget = tempBudget;
   return respondJSON(request, response, responseCode, responseJSON);
 };
 

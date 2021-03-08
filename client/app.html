@@ -60,7 +60,7 @@
           else if(obj.length > 1)
           {
             if(obj[0].budget === "You don't have a budget. Go enter one on the Edit Page!"){
-            container.innerHTML = "You don't have a budget. Go enter one on the Edit Page!";
+            container.innerHTML = "<p>You don't have a budget. Go enter one on the Edit Page!</p>";
             } else if(obj[0].budget !== "You don't have a budget. Go enter one on the Edit Page!"){
 
               //variable for total amount used
@@ -87,9 +87,14 @@
           }
           else if(obj.length = 1)
           {
+            //check to see if there is no budget yet, if so print out string not number
+            if(obj[0].budget === "You don't have a budget. Go enter one on the Edit Page!"){
+            container.innerHTML = "<p>You don't have a budget. Go enter one on the Edit Page!</p>";
+            } else {
             container.innerHTML = `
-            <span>Budget: ${Number(obj[0].budget).toFixed(2)}</span>
+            <span>Budget: $${Number(obj[0].budget).toFixed(2)}</span>
             `;
+            }
           }
       }
 

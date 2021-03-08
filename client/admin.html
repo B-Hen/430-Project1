@@ -10,6 +10,8 @@
     <script>
         "use strict";
 
+        let deleteButton;
+
         const handleResponse = (xhr) => {
           const obj = JSON.parse(xhr.target.response); // turn it bak into an object
           console.log("obj=", obj);
@@ -19,13 +21,13 @@
 
           for(let i = 1; i < obj.length; i++)
           { // //<button class="editButton">Edit</button>
+              //<span><button class="deleteButton">Delete</button></span>
               container.innerHTML += `
               <div class="results">
                 <span>Item: ${obj[i].item}</span>
                 <span>Cost: ${obj[i].cost}</span>
                 <span>Type: ${obj[i].type}</span>
                 <span>Necessary: ${obj[i].necessary}</span>
-                <span><button class="deleteButton">Delete</button></span>
                 </div>
              `
           }
@@ -51,11 +53,7 @@
       };
 
       const deleteExpense = (e) => {
-        //start by getting which expense to delete
-        if(e.target.clicked === true)
-        {
-          console.log("click");
-        }
+
       }
 
       const handleClear = (e) => {
@@ -79,16 +77,12 @@
         const init = () => {
             downloadExpenses();
             document.querySelector("#clear").addEventListener("click", clearAll);
-            // if(document.querySelector("#expenses").innerHTML.trim().length != 0){
-            //   console.log("Inside");
-
-            //   let expense = document.querySelectorAll(".deleteButton");
-            //   console.log(expense.length);
-            //   console.log(expense);
-            // }
+            deleteButton = document.querySelectorAll(".deleteButton");
+            console.log(deleteButton.length);
        };
      
        window.onload = init;
+
     </script>
     <body>
         <ul id ="topnav">

@@ -181,7 +181,7 @@ const deleteExpense = (request, response, body) => {
     message: "Can't Delete Expense",
   };
 
-  const responseCode = 204;
+  const responseCode = 200;
   const index = Number(body.index);
 
   budget.splice(index, 1);
@@ -189,6 +189,7 @@ const deleteExpense = (request, response, body) => {
   for (let i = 1; i < budget.length; i++) {
     budget[i].index = i;
   }
+  return respondJSON(request, response, responseCode, responseJSON);
 };
 
 module.exports = {

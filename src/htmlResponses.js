@@ -14,6 +14,7 @@ const home = fs.readFileSync(`${__dirname}/../client/index.html`);
 const add = fs.readFileSync(`${__dirname}/../client/add.html`);
 const admin = fs.readFileSync(`${__dirname}/../client/admin.html`);
 const picture = fs.readFileSync(`${__dirname}/../client/budget.jpg`);
+const error = fs.readFileSync(`${__dirname}/../client/error.html`);
 
 const get404Response = (request, response) => {
   response.writeHead(404, { 'Content-Type': 'text/html' }); // send response headers
@@ -69,6 +70,12 @@ const getHomePage = (request, response) => {
   response.end();
 };
 
+const getErrorPage = (request, response) => {
+  response.writeHead(400, { 'Content-Type': 'text/html' }); // send response headers
+  response.write(error); // send content
+  response.end();
+};
+
 const AddPage = (request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html' }); // send response headers
   response.write(add); // send content
@@ -99,3 +106,4 @@ module.exports.getIndexCSS = getIndexCSS;
 module.exports.getaddCSS = getaddCSS;
 module.exports.getAdminCSS = getAdminCSS;
 module.exports.getErrorCSS = getErrorCSS;
+module.exports.getErrorPage = getErrorPage;

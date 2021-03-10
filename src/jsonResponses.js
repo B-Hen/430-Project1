@@ -2,10 +2,10 @@
 const _ = require('underscore');
 
 const budget = [
- // { budget: 1000 },
- // {
+  // { budget: 1000 },
+  // {
   //  item: 'PS5', cost: 530.99, type: 'Game', necessary: 'No', index: 1,
- // },
+  // },
 ];
 
 // function to get jokes for JSON
@@ -45,10 +45,10 @@ const getRandomJokeXML = (numberOfJokes) => {
 
   // loop through and add the jokes to the array that will be returned
   for (let i = 0; i < limit; i++) {
-    if(i === 0){
+    if (i === 0) {
       budget3[i] = `<budget>${budget[i].budget}<budget>`;
     } else if (i > 0) {
-    budget3[i] = `<expense><item>${budget[i].item}</item><cost>${budget[i].cost}</cost><type>${budget[i].type}</type><necessary>${budget[i].necessary}</necessary></expense>`;
+      budget3[i] = `<expense><item>${budget[i].item}</item><cost>${budget[i].cost}</cost><type>${budget[i].type}</type><necessary>${budget[i].necessary}</necessary></expense>`;
     }
   }
 
@@ -152,25 +152,43 @@ const addExpense = (request, response, body) => {
 
   if (budget.length === 0) budget.push({ budget: "You don't have a budget. Go enter one on the Edit Page!" });
   budget.push({
-    item: body.item, cost: body.cost, type: body.type, 
-    necessary: body.necessary, index: budget.length,
+    item: body.item,
+    cost: body.cost,
+    type: body.type,
+    necessary: body.necessary,
+    index: budget.length,
   });
 
   responseJSON.message = 'Created Successfully';
   return respondJSON(request, response, responseCode, responseJSON);
 };
 
-const clearBudget = (request, response, body) =>{
+const clearBudget = (request, response, body) => {
   const responseJSON = {
     message: 'You need to add all the parameters!',
   };
-  let responseCode = 200;
-  let tempBudget = budget[0].budget;
+  const responseCode = 200;
+  const tempBudget = budget[0].budget;
   budget.length = 0;
-  
+
   budget[0] = { budget: '' };
   budget[0].budget = tempBudget;
   return respondJSON(request, response, responseCode, responseJSON);
+};
+
+const deleteExpense = (request, response, body) => {
+  const responseJSON = {
+    message: "Can't Delete Expense",
+  };
+
+  const responseCode = 204;
+  const index = Number(body.index);
+
+  budget.splice(index, 1);
+
+  for (let i = 1; i < budget.length; i++) {
+    budget[i].index = i;
+  }
 };
 
 module.exports = {
@@ -179,4 +197,5 @@ module.exports = {
   addBudget,
   addExpense,
   clearBudget,
+  deleteExpense,
 };

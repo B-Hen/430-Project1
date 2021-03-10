@@ -19,7 +19,7 @@
 
           let container = document.querySelector("#expenses");
 
-          for(let i = 1; i < obj.length; i++)
+          for(let i = obj.length -1; i > 0; i--)
           { // //<button class="editButton">Edit</button>
               //<span><button class="deleteButton">Delete</button></span>
               container.innerHTML += `
@@ -28,6 +28,7 @@
                 <span>Cost: ${obj[i].cost}</span>
                 <span>Type: ${obj[i].type}</span>
                 <span>Necessary: ${obj[i].necessary}</span>
+                <span><button class="deleteButton" onclick="deleteExpense(${obj[i].index})">Delete</button></span>
                 </div>
              `
           }
@@ -52,8 +53,32 @@
         xhr.send();
       };
 
-      const deleteExpense = (e) => {
+      const handleDelete = (index) =>{
+        console.log("inside");
+        let results = document.querySelectorAll(".results");
+         console.log("This is length: " + results.length);
+        // console.log(index);
+        // console.log(Number(index) - 1);
+        // console.log(results);
+        // //check to see if there is only one element of if the element you 
+        // //are deleteing is the last expense added.
+         if(results.length === 1 || index > results.length){ results[0].remove();}
+         else{results[results.length - index].remove();}
+      }
 
+      const deleteExpense = (index) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = handleDelete(index);
+        xhr.open("post", "/delete");
+        console.log(Number(index));
+
+        xhr.setRequestHeader('Accept','application/javascript');
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+        
+        const formData = `index=${index}`; 
+        xhr.send(formData); 
+
+        return false;
       }
 
       const handleClear = (e) => {
@@ -68,7 +93,7 @@
         xhr.setRequestHeader('Accept','application/javascript');
         xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
         
-        const formData = `clear=true`;
+        const formData = `clear=true`; 
         xhr.send(formData); 
 
         return false;

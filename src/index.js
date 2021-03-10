@@ -73,8 +73,7 @@ const handlePost = (request, response, parsedUrl) => {
 
       jsonHandler.addExpense(request, response, bodyParams);
     });
-  } 
-  else if (parsedUrl.pathname === '/clear') {
+  } else if (parsedUrl.pathname === '/clear') {
     const body = [];
 
     // https://nodejs.org/api/http.html
@@ -94,7 +93,27 @@ const handlePost = (request, response, parsedUrl) => {
 
       jsonHandler.clearBudget(request, response, bodyParams);
     });
-  } 
+  } else if (parsedUrl.pathname === '/delete') {
+    const body = [];
+
+    // https://nodejs.org/api/http.html
+    request.on('error', (err) => {
+      console.dir(err);
+      response.statusCode = 400;
+      response.end();
+    });
+
+    request.on('data', (chunk) => {
+      body.push(chunk);
+    });
+
+    request.on('end', () => {
+      const bodyString = Buffer.concat(body).toString();
+      const bodyParams = query.parse(bodyString);
+
+      jsonHandler.deleteExpense(request, response, bodyParams);
+    });
+  }
 };
 
 // 7 - this is the function that will be called every time a client request comes in

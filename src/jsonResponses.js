@@ -194,6 +194,7 @@ const deleteExpense = (request, response, body) => {
   return respondJSON(request, response, responseCode, responseJSON);
 };
 
+// method to edit an expense
 const editExpense = (request, response, body) => {
   const responseJSON = {
     message: 'All fields are required!',

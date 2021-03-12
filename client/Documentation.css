@@ -7,7 +7,7 @@ body{
     margin: 1vw;
 }
 
-#container, h1, h2, p, hr, main, header{
+#container, h1, h2, p, hr, main, header, h3{
     background-color: #5AAA95;
 }
 

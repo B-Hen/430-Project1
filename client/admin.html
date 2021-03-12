@@ -35,31 +35,36 @@
 
       const handleEdit = (index) =>{
         let results = document.querySelectorAll(".results");
+
+        let itemField = "";
+        let costField = 0;
+        let typeField = "";
+        let necessaryField = "";
+
         if(results.length === 1 || index > results.length)
         { 
           results[0].innerHTML = `
             <label for="item">Item: </label>
-            <input id="itemText" type="text" name="item" onfocus="this.value=''" value="Ex. Banana">
+            <input id="itemText" type="text" name="item" onfocus="this.value=''" >
             <label for="cost">Cost: </label>
-            <input id="costText" type="number" name="cost" min="0" max="100000000000" step="0.01" value=0.99>
+            <input id="costText" type="number" name="cost" min="0" max="100000000000" step="0.01">
             <label for="type">Type: </label>
-            <input id="typeText" type="text" name="type" onfocus="this.value=''" value="Ex. Food/Drink">
+            <input id="typeText" type="text" name="type" onfocus="this.value=''" >
             <label for="necessary">Necessary: </label>
-            <input id="necessaryText" type="text" name="necessary" onfocus="this.value=''" value="Ex. Yes/No">
+            <input id="necessaryText" type="text" name="necessary" onfocus="this.value=''" >
             <button class="submit" onclick="sendEdit(${index})">Edit</button>
             `;
         }
         else{
-          console.log(results.length - index + " this is the esle");
           results[results.length - index].innerHTML = `
             <label for="item">Item: </label>
-            <input id="itemText" type="text" name="item" onfocus="this.value=''" value="Ex. Banana">
+            <input id="itemText" type="text" name="item" onfocus="this.value=''" >
             <label for="cost">Cost: </label>
-            <input id="costText" type="number" name="cost" min="0" max="100000000000" step="0.01" value=0.99>
+            <input id="costText" type="number" name="cost" min="0" max="100000000000" step="0.01" >
             <label for="type">Type: </label>
-            <input id="typeText" type="text" name="type" onfocus="this.value=''" value="Ex. Food/Drink">
+            <input id="typeText" type="text" name="type" onfocus="this.value=''" >
             <label for="necessary">Necessary: </label>
-            <input id="necessaryText" type="text" name="necessary" onfocus="this.value=''" value="Ex. Yes/No">
+            <input id="necessaryText" type="text" name="necessary" onfocus="this.value=''">
             <button class="submit" onclick="sendEdit(${index})">Edit</button>
             `;
         }

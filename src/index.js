@@ -31,6 +31,8 @@ const urlStruct = {
   '/admin.html': htmlHandler.getAdmin,
   '/budget.jpg': htmlHandler.getPicture,
   '/clear': jsonHandler.clearBudget,
+  '/Documentation.html': htmlHandler.getDocumentation,
+  '/Documentation.css': htmlHandler.getDocCSS,
   notFound: htmlHandler.get404Response,
 };
 
@@ -119,6 +121,26 @@ const handlePost = (request, response, parsedUrl) => {
       const bodyParams = query.parse(bodyString);
 
       jsonHandler.deleteExpense(request, response, bodyParams);
+    });
+  } else if (parsedUrl.pathname === '/editExpense') {
+    const body = [];
+
+    // https://nodejs.org/api/http.html
+    request.on('error', (err) => {
+      console.dir(err);
+      response.statusCode = 400;
+      response.end();
+    });
+
+    request.on('data', (chunk) => {
+      body.push(chunk);
+    });
+
+    request.on('end', () => {
+      const bodyString = Buffer.concat(body).toString();
+      const bodyParams = query.parse(bodyString);
+
+      jsonHandler.editExpense(request, response, bodyParams);
     });
   }
 };

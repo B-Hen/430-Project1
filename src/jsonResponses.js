@@ -166,7 +166,7 @@ const addExpense = (request, response, body) => {
 // method to clear all the expenses
 const clearBudget = (request, response, body) => {
   const responseJSON = {
-    message: 'You need to add all the parameters!',
+    message: 'Expenses cleared',
   };
   const responseCode = 200;
   const tempBudget = budget[0].budget;
@@ -180,7 +180,7 @@ const clearBudget = (request, response, body) => {
 // method to delete an indivdual element
 const deleteExpense = (request, response, body) => {
   const responseJSON = {
-    message: "Can't Delete Expense",
+    message: 'Deleted Expense',
   };
 
   const responseCode = 200;
@@ -194,6 +194,26 @@ const deleteExpense = (request, response, body) => {
   return respondJSON(request, response, responseCode, responseJSON);
 };
 
+const editExpense = (request, response, body) => {
+  const responseJSON = {
+    message: 'All fields are required!',
+  };
+
+  // if parameter not passed in
+  if (!body.item || !body.cost || !body.type || !body.necessary) {
+    responseJSON.id = 'missingParams';
+    return respondJSON(request, response, 400, responseJSON);
+  }
+
+  // find the expense in the array
+  budget[body.index] = {
+    item: body.item, cost: body.cost, type: body.type, necessary: body.necessary, index: body.index,
+  };
+  const responseCode = 204;
+
+  return respondJSONMeta(request, response, responseCode); // this is for 204, a "no content" header
+};
+
 // export the functions to use in index
 module.exports = {
   getRandomJokeResponse,
@@ -202,4 +222,5 @@ module.exports = {
   addExpense,
   clearBudget,
   deleteExpense,
+  editExpense,
 };

@@ -14,8 +14,10 @@ const app = fs.readFileSync(`${__dirname}/../client/app.html`);
 const home = fs.readFileSync(`${__dirname}/../client/index.html`);
 const add = fs.readFileSync(`${__dirname}/../client/add.html`);
 const admin = fs.readFileSync(`${__dirname}/../client/admin.html`);
-const picture = fs.readFileSync(`${__dirname}/../client/budget.jpg`);
+const picture = fs.readFileSync(`${__dirname}/../client/budget.png`);
 const error = fs.readFileSync(`${__dirname}/../client/error.html`);
+const documentation = fs.readFileSync(`${__dirname}/../client/Documentation.html`);
+const documentationCSS = fs.readFileSync(`${__dirname}/../client/Documentation.css`);
 
 // get an error Page
 const get404Response = (request, response) => {
@@ -66,6 +68,13 @@ const getErrorCSS = (request, response) => {
   response.end(); // close connection
 };
 
+// get the css for the documentation page
+const getDocCSS = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/css' }); // send response headers
+  response.write(documentationCSS); // send content
+  response.end(); // close connection
+};
+
 // get the App Page
 const getJokes = (request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/html' }); // send response headers
@@ -108,6 +117,13 @@ const getPicture = (request, response) => {
   response.end();
 };
 
+// get the picture for the error page
+const getDocumentation = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/html' }); // send response headers
+  response.write(documentation); // send content
+  response.end();
+};
+
 // export all the endpoints
 module.exports.get404Response = get404Response;
 module.exports.getCSS = getCSS;
@@ -122,3 +138,5 @@ module.exports.getaddCSS = getaddCSS;
 module.exports.getAdminCSS = getAdminCSS;
 module.exports.getErrorCSS = getErrorCSS;
 module.exports.getErrorPage = getErrorPage;
+module.exports.getDocumentation = getDocumentation;
+module.exports.getDocCSS = getDocCSS;

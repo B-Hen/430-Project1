@@ -19,19 +19,117 @@
         let container = document.querySelector("#expenses");
 
         for(let i = obj.length -1; i > 0; i--)
-        { // //<button class="editButton">Edit</button>
-            //<span><button class="deleteButton">Delete</button></span>
+        { 
             container.innerHTML += `
             <div class="results">
               <span>Item: ${obj[i].item}</span>
               <span>Cost: ${obj[i].cost}</span>
               <span>Type: ${obj[i].type}</span>
               <span>Necessary: ${obj[i].necessary}</span>
+              <span><button class="editButton" onclick="editResult(${obj[i].index})">Edit</button></span>
               <span><button class="deleteButton" onclick="deleteExpense(${obj[i].index})">Delete</button></span>
               </div>
             `
         }
     };
+
+      const handleEdit = (index) =>{
+        let results = document.querySelectorAll(".results");
+        if(results.length === 1 || index > results.length)
+        { 
+          results[0].innerHTML = `
+            <label for="item">Item: </label>
+            <input id="itemText" type="text" name="item" onfocus="this.value=''" value="Ex. Banana">
+            <label for="cost">Cost: </label>
+            <input id="costText" type="number" name="cost" min="0" max="100000000000" step="0.01" value=0.99>
+            <label for="type">Type: </label>
+            <input id="typeText" type="text" name="type" onfocus="this.value=''" value="Ex. Food/Drink">
+            <label for="necessary">Necessary: </label>
+            <input id="necessaryText" type="text" name="necessary" onfocus="this.value=''" value="Ex. Yes/No">
+            <button class="submit" onclick="sendEdit(${index})">Edit</button>
+            `;
+        }
+        else{
+          console.log(results.length - index + " this is the esle");
+          results[results.length - index].innerHTML = `
+            <label for="item">Item: </label>
+            <input id="itemText" type="text" name="item" onfocus="this.value=''" value="Ex. Banana">
+            <label for="cost">Cost: </label>
+            <input id="costText" type="number" name="cost" min="0" max="100000000000" step="0.01" value=0.99>
+            <label for="type">Type: </label>
+            <input id="typeText" type="text" name="type" onfocus="this.value=''" value="Ex. Food/Drink">
+            <label for="necessary">Necessary: </label>
+            <input id="necessaryText" type="text" name="necessary" onfocus="this.value=''" value="Ex. Yes/No">
+            <button class="submit" onclick="sendEdit(${index})">Edit</button>
+            `;
+        }
+      };
+
+      const sendEdit = (index) => {
+        let results = document.querySelectorAll(".results");
+
+        let itemField = "";
+        let costField = 0;
+        let typeField = "";
+        let necessaryField = "";
+
+
+        if(results.length === 1 || index > results.length)
+        { 
+          itemField = results[0].querySelector('#itemText').value;
+          costField = results[0].querySelector('#costText').value;
+          typeField = results[0].querySelector('#typeText').value;
+          necessaryField = results[0].querySelector('#necessaryText').value;
+        }
+        else{
+          itemField = results[results.length - index].querySelector('#itemText').value;
+          costField = results[results.length - index].querySelector('#costText').value;
+          typeField = results[results.length - index].querySelector('#typeText').value;
+          necessaryField = results[results.length - index].querySelector('#necessaryText').value;
+ 
+        }
+
+        const xhr = new XMLHttpRequest();
+        xhr.onload = handleSendEdit(index, itemField, costField, typeField, necessaryField);
+        xhr.open("POST", "/editExpense");
+        xhr.setRequestHeader('Accept','application/javascript');
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+  
+        const formData = `item=${itemField}&cost=${costField}&type=${typeField}&necessary=${necessaryField}&index=${index}`;
+        xhr.send(formData); 
+
+        return false;
+      };
+
+      const handleSendEdit = (index, itemField, costField, typeField, necessaryField) => {
+        let results = document.querySelectorAll(".results");
+        if(results.length === 1 || index > results.length)
+        { 
+          results[0].innerHTML = `
+            <span>Item: ${itemField}</span>
+            <span>Cost: ${costField}</span>
+            <span>Type: ${typeField}</span>
+            <span>Necessary: ${necessaryField}</span>
+            <span><button class="editButton" onclick="editResult(${index})">Edit</button></span>
+            <span><button class="deleteButton" onclick="deleteExpense(${index})">Delete</button></span>
+            `;
+        }
+        else{
+          console.log(results.length - index + " this is the esle");
+          results[results.length - index].innerHTML = `
+           <span>Item: ${itemField}</span>
+            <span>Cost: ${costField}</span>
+            <span>Type: ${typeField}</span>
+            <span>Necessary: ${necessaryField}</span>
+            <span><button class="editButton" onclick="editResult(${index})">Edit</button></span>
+            <span><button class="deleteButton" onclick="deleteExpense(${index})">Delete</button></span>
+            `;
+        }
+      }
+
+      const editResult = (index) => {
+        handleEdit(index);
+      };
 
      //method to download the expenses when the page first loads 
       const downloadExpenses = () => {
@@ -96,13 +194,10 @@
       }
     }
 
-
     //method runs once the window loads
     const init = () => {
         downloadExpenses();
         document.querySelector("#clear").addEventListener("click", clearAll);
-        deleteButton = document.querySelectorAll(".deleteButton");
-        console.log(deleteButton.length);
     };
     
     window.onload = init;

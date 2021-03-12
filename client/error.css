@@ -56,11 +56,11 @@ a:active{
 }
 
 #container{
-    margin-top: 3vh;
+    margin-top: 1vh;
     background-color: #5AAA95;
     border: 5px solid #095256;
     border-radius: 5vw;
-    padding-bottom: 5vh;
+    padding-bottom: 3vh;
 }
 
 h1, p{
@@ -82,4 +82,10 @@ p{
 #home{
     margin-left: 38vw;
     margin-right: 38vw;
+}
+
+img {
+    background-color: #5AAA95;
+    margin-left: 34vw;
+    margin-right: 34vw;
 }

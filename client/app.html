@@ -93,7 +93,7 @@
 
               container.innerHTML = `
               <p>Budget: $${Number(obj[0].budget).toFixed(2)}   |   Total Spent: $${totalUsed.toFixed(2)}   |   Money left to spend: $${leftOver.toFixed(2)}</p>
-              <p>Left for a month: ${month.toFixed(2)}    |    Left for a week: ${week.toFixed(2)}    |    Left for a day: ${day.toFixed(2)}</p>
+              <p>Left for a month: $${month.toFixed(2)}    |    Left for a week: $${week.toFixed(2)}    |    Left for a day: $${day.toFixed(2)}</p>
               `;
             }
           }
@@ -110,7 +110,7 @@
             let week = month/4;
             container.innerHTML = `
             <p>Budget: $${Number(obj[0].budget).toFixed(2)}</p>
-            <p>Total for a month: ${month.toFixed(2)}    |    Total for a week: ${week.toFixed(2)}    |    Total for a day: ${day.toFixed(2)}</p>
+            <p>Total for a month: $${month.toFixed(2)}    |    Total for a week: $${week.toFixed(2)}    |    Total for a day: $${day.toFixed(2)}</p>
             `;
             }
           }

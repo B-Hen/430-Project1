@@ -8,107 +8,113 @@
         <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     </head>
     <script>
-   "use strict";
-    const handleResponse = (e) => {
-        const xhr = e.target;
-        const content = document.querySelector('#updateBudget');
-        
-        console.log(xhr.status);
-        switch(xhr.status){
-        case 200:
-            content.innerHTML = '<p><b>Success!</b></p>';
-            break;
-        case 201:
-            content.innerHTML = '<p><b>Budget was Created!</b></p>';
-            break;
-        case 204:
-            content.innerHTML = '<p><b>Budget Updated!</b></p>';
-            break;
-        case 400:
-            content.innerHTML = '<p><b>Bad Request!</b></p>';
-            break;
-        default:
-            content.innerHTML = '<p><b>Error code not implemented by client</b></p>';
-        }
-        
-        // make sure that something is in the .response property first!
-        const obj = xhr.response && JSON.parse(xhr.response);
-        console.dir(obj);
-    };
-
-    const handleExpense = (e) => {
-        const xhr = e.target;
-        const content = document.querySelector('#updateExpense');
-        
-        console.log(xhr.status);
-        switch(xhr.status){
-        case 200:
-            content.innerHTML = '<p><b>Success!</b></p>';
-            break;
-        case 201:
-            content.innerHTML = '<p><b>Expense was Created!</b></p>';
-            break;
-        case 204:
-            content.innerHTML = '<p><b>Expense Updated!</b></p>';
-            break;
-        case 400:
-            content.innerHTML = '<p><b>Bad Request!</b></p>';
-            break;
-        default:
-            content.innerHTML = '<p><b>Error code not implemented by client</b></p>';
-        }
-        
-        // make sure that something is in the .response property first!
-        const obj = xhr.response && JSON.parse(xhr.response);
-        console.dir(obj);
-    };
-
-      const sendPost = (e, budgetForm) => {
-			e.preventDefault();
-			
-			const budgetAction = budgetForm.getAttribute("action");
-			const budgetMethod = budgetForm.getAttribute("method");
-			
-            const budgetField = budgetForm.querySelector("#changeBudgetText").value;
+    "use strict";
+    
+    //method to handle the different status codes and update the user
+        const handleResponse = (e) => {
+            const xhr = e.target;
+            const content = document.querySelector('#updateBudget');
             
+            console.log(xhr.status);
+            switch(xhr.status){
+            case 200:
+                content.innerHTML = '<p><b>Success!</b></p>';
+                break;
+            case 201:
+                content.innerHTML = '<p><b>Budget was Created!</b></p>';
+                break;
+            case 204:
+                content.innerHTML = '<p><b>Budget Updated!</b></p>';
+                break;
+            case 400:
+                content.innerHTML = '<p><b>Bad Request!</b></p>';
+                break;
+            default:
+                content.innerHTML = '<p><b>Error code not implemented by client</b></p>';
+            }
+            
+            // make sure that something is in the .response property first!
+            const obj = xhr.response && JSON.parse(xhr.response);
+            console.dir(obj);
+        };
+
+        // method to update the user on the status codes for the expenses
+        const handleExpense = (e) => {
+            const xhr = e.target;
+            const content = document.querySelector('#updateExpense');
+            
+            console.log(xhr.status);
+            switch(xhr.status){
+            case 200:
+                content.innerHTML = '<p><b>Success!</b></p>';
+                break;
+            case 201:
+                content.innerHTML = '<p><b>Expense was Created!</b></p>';
+                break;
+            case 204:
+                content.innerHTML = '<p><b>Expense Updated!</b></p>';
+                break;
+            case 400:
+                content.innerHTML = '<p><b>Bad Request!</b></p>';
+                break;
+            default:
+                content.innerHTML = '<p><b>Error code not implemented by client</b></p>';
+            }
+            
+            // make sure that something is in the .response property first!
+            const obj = xhr.response && JSON.parse(xhr.response);
+            console.dir(obj);
+        };
+
+        //method to send a post request for the budget
+        const sendPost = (e, budgetForm) => {
+                e.preventDefault();
+                
+                const budgetAction = budgetForm.getAttribute("action");
+                const budgetMethod = budgetForm.getAttribute("method");
+                
+                const budgetField = budgetForm.querySelector("#changeBudgetText").value;
+                
+                const xhr = new XMLHttpRequest();
+                xhr.onload = handleResponse;
+                xhr.open(budgetMethod,budgetAction); 
+                
+                xhr.setRequestHeader('Accept','application/javascript');
+                xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+                
+                const formData = `budget=${budgetField}`;
+                xhr.send(formData); 	
+        
+                return false; // prevents event bubbling
+        };
+
+        //method to send a post so the user can add expenses to there budget
+        const sendExpensePost = (e, budgetForm) => {
+            e.preventDefault();
+                
+            const budgetAction = budgetForm.getAttribute("action");
+            const budgetMethod = budgetForm.getAttribute("method");
+
+            const itemField = budgetForm.querySelector('#itemText').value;
+            const costField = budgetForm.querySelector('#costText').value;
+            const typeField = budgetForm.querySelector('#typeText').value;
+            const necessaryField = budgetForm.querySelector('#necessaryText').value;
+
             const xhr = new XMLHttpRequest();
-            xhr.onload = handleResponse;
-            xhr.open(budgetMethod,budgetAction); 
-            
+            xhr.onload = handleExpense;
+            xhr.open(budgetMethod,budgetAction);
+
             xhr.setRequestHeader('Accept','application/javascript');
             xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-              
-            const formData = `budget=${budgetField}`;
-            xhr.send(formData); 	
-    
-			return false; // prevents event bubbling
-    };
+            
+            const formData = `item=${itemField}&cost=${costField}&type=${typeField}&necessary=${necessaryField}`;
+            xhr.send(formData); 
 
-    const sendExpensePost = (e, budgetForm) => {
-        e.preventDefault();
-			
-    	const budgetAction = budgetForm.getAttribute("action");
-        const budgetMethod = budgetForm.getAttribute("method");
-
-        const itemField = budgetForm.querySelector('#itemText').value;
-        const costField = budgetForm.querySelector('#costText').value;
-        const typeField = budgetForm.querySelector('#typeText').value;
-        const necessaryField = budgetForm.querySelector('#necessaryText').value;
-
-        const xhr = new XMLHttpRequest();
-        xhr.onload = handleExpense;
-        xhr.open(budgetMethod,budgetAction);
-
-        xhr.setRequestHeader('Accept','application/javascript');
-        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+            return false;
+        };
         
-        const formData = `item=${itemField}&cost=${costField}&type=${typeField}&necessary=${necessaryField}`;
-        xhr.send(formData); 
-
-        return false;
-    };
-      
-      const init = () => {
+        //called when the window first loads
+        const init = () => {
         const budgetForm = document.querySelector('#changeBudgetForm');
         const expenseForm = document.querySelector('#addExpense');
 
@@ -117,8 +123,8 @@
 
         budgetForm.addEventListener('submit', changeBudget);
         expenseForm.addEventListener('submit', addExpense);
-      };
-      
+        };
+    
       window.onload = init;
      
     </script>
@@ -135,7 +141,7 @@
      
         <section>
             <h2>Change Budget</h2>
-            <form id="changeBudgetForm" action="/addBudget" method="post">
+            <form id="changeBudgetForm" action="/addBudget" method="POST">
               <label for="Budget">Budget: </label>
               <input id="changeBudgetText" type="number" name="Budget" min="0" max="1000000" step="0.01"/>
               <input class="submit" type="submit" value="Change Budget"/>
@@ -147,7 +153,7 @@
 
         <section>
             <h2>Add Expense</h2>
-            <form id="addExpense" action="/addExpense" method="post">
+            <form id="addExpense" action="/addExpense" method="POST">
               <label for="item">Item: </label>
               <input id="itemText" type="text" name="item" onfocus="this.value=''" value="Ex. Banana">
               <label for="cost">Cost: </label>

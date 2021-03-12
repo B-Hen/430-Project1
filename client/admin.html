@@ -8,107 +8,106 @@
         <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     </head>
     <script>
-        "use strict";
+      "use strict";
 
-        let deleteButton;
-
-        const handleResponse = (xhr) => {
-          const obj = JSON.parse(xhr.target.response); // turn it bak into an object
-          console.log("obj=", obj);
-          console.log(obj.length);
-
-          let container = document.querySelector("#expenses");
-
-          for(let i = obj.length -1; i > 0; i--)
-          { // //<button class="editButton">Edit</button>
-              //<span><button class="deleteButton">Delete</button></span>
-              container.innerHTML += `
-              <div class="results">
-                <span>Item: ${obj[i].item}</span>
-                <span>Cost: ${obj[i].cost}</span>
-                <span>Type: ${obj[i].type}</span>
-                <span>Necessary: ${obj[i].necessary}</span>
-                <span><button class="deleteButton" onclick="deleteExpense(${obj[i].index})">Delete</button></span>
-                </div>
-             `
-          }
-      };
-
-      const deleteExpHandle = (xhr) => {
+      //method to load in the expenses when xhr.opload rubs
+      const handleResponse = (xhr) => {
         const obj = JSON.parse(xhr.target.response); // turn it bak into an object
-          console.log("obj=", obj);
-          console.log(obj.length);
+        console.log("obj=", obj);
+        console.log(obj.length);
+
+        let container = document.querySelector("#expenses");
+
+        for(let i = obj.length -1; i > 0; i--)
+        { // //<button class="editButton">Edit</button>
+            //<span><button class="deleteButton">Delete</button></span>
+            container.innerHTML += `
+            <div class="results">
+              <span>Item: ${obj[i].item}</span>
+              <span>Cost: ${obj[i].cost}</span>
+              <span>Type: ${obj[i].type}</span>
+              <span>Necessary: ${obj[i].necessary}</span>
+              <span><button class="deleteButton" onclick="deleteExpense(${obj[i].index})">Delete</button></span>
+              </div>
+            `
+        }
+    };
+
+     //method to download the expenses when the page first loads 
+      const downloadExpenses = () => {
+
+      const jokesURL ="/random-jokes?limit=10000000000";
+      const xhr = new XMLHttpRequest();
+      xhr.onload = handleResponse;
+      xhr.open("GET", jokesURL);
+
+      //with XHR,, after we open a connection, but before we 'send()' we can set 1 or more HTTP request ehaders
+      //this isn't stickly neccessary because "/random-joke" send JSON by defualt
+      xhr.setRequestHeader('Accept', 'application/javascript');
+      xhr.send();
+    };
+
+    //method to update and show the user that they have delete and expense for good
+    const handleDelete = (index) =>{
+      let results = document.querySelectorAll(".results");
+        console.log("This is length: " + results.length);
+        if(results.length === 1 || index > results.length){ results[0].remove();}
+        else{results[results.length - index].remove();}
+    };
+
+    //Method to delete and expense for the user using POST
+    const deleteExpense = (index) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = handleDelete(index);
+      xhr.open("post", "/delete");
+      console.log(Number(index));
+
+      xhr.setRequestHeader('Accept','application/javascript');
+      xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+      
+      const formData = `index=${index}`; 
+      xhr.send(formData); 
+
+      return false;
+    }
+
+    //method to update the site and clear all the expenses
+    const handleClear = (e) => {
+      document.querySelector("#expenses").innerHTML = "";
+    }
+
+    //method to clear all the expenses on the server using post
+    const clearAll = () => {
+      if(document.querySelectorAll(".results").length === 0)
+      {
+        document.querySelector("#clearP").innerHTML = `<p>You have nothing to clear!</p>`;
+      } else {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = handleClear;
+      xhr.open("post", "/clear");
+
+      xhr.setRequestHeader('Accept','application/javascript');
+      xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+      
+      const formData = `clear=true`; 
+      xhr.send(formData); 
+
+      return false;
       }
+    }
 
-        const downloadExpenses = () => {
 
-        const jokesURL ="/random-jokes?limit=10000000000";
-        const xhr = new XMLHttpRequest();
-        xhr.onload = handleResponse;
-        xhr.open("GET", jokesURL);
+    //method runs once the window loads
+    const init = () => {
+        downloadExpenses();
+        document.querySelector("#clear").addEventListener("click", clearAll);
+        deleteButton = document.querySelectorAll(".deleteButton");
+        console.log(deleteButton.length);
+    };
+    
+    window.onload = init;
 
-        //with XHR,, after we open a connection, but before we 'send()' we can set 1 or more HTTP request ehaders
-        //this isn't stickly neccessary because "/random-joke" send JSON by defualt
-        xhr.setRequestHeader('Accept', 'application/javascript');
-        xhr.send();
-      };
-
-      const handleDelete = (index) =>{
-        console.log("inside");
-        let results = document.querySelectorAll(".results");
-         console.log("This is length: " + results.length);
-        // console.log(index);
-        // console.log(Number(index) - 1);
-        // console.log(results);
-        // //check to see if there is only one element of if the element you 
-        // //are deleteing is the last expense added.
-         if(results.length === 1 || index > results.length){ results[0].remove();}
-         else{results[results.length - index].remove();}
-      }
-
-      const deleteExpense = (index) => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = handleDelete(index);
-        xhr.open("post", "/delete");
-        console.log(Number(index));
-
-        xhr.setRequestHeader('Accept','application/javascript');
-        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-        
-        const formData = `index=${index}`; 
-        xhr.send(formData); 
-
-        return false;
-      }
-
-      const handleClear = (e) => {
-        document.querySelector("#expenses").innerHTML = "";
-      }
-
-      const clearAll = () => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = handleClear;
-        xhr.open("post", "/clear");
-
-        xhr.setRequestHeader('Accept','application/javascript');
-        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-        
-        const formData = `clear=true`; 
-        xhr.send(formData); 
-
-        return false;
-      }
-
-        const init = () => {
-            downloadExpenses();
-            document.querySelector("#clear").addEventListener("click", clearAll);
-            deleteButton = document.querySelectorAll(".deleteButton");
-            console.log(deleteButton.length);
-       };
-     
-       window.onload = init;
-
-    </script>
+  </script>
     <body>
         <ul id ="topnav">
             <li><a href="/index.html">Home</a></li>
@@ -121,6 +120,7 @@
         <h1>Admin</h1>
         <section>
             <div id="expenses"></div>
+            <p id="clearP"></p>
             <button id="clear">Clear Expense</button>
         </section>
       </div>

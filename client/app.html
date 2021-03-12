@@ -6,6 +6,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     <script>
       "use strict";
+
+      //method to update the container and display the expenses using the expenses endpoint
       const handleResponse = (e) => {
           console.log("e.target =", e.target); //here e.targte is the xhr object
           console.log("e.target.response = ", e.targetResponse); //so that means this is a string of "joke" JSON
@@ -21,6 +23,7 @@
  
           if(obj.length > 1) 
           {
+            //displayer it from newest expense to oldest 
             for(let i = obj.length - 1; i > 0; i--)
             {
               line = `
@@ -44,6 +47,7 @@
           }
       };
 
+      //method to update and display the budget on the page using the budget endpoint
       const handleBudget = (e) => {
         console.log("e.target =", e.target); //here e.targte is the xhr object
           console.log("e.target.response = ", e.targetResponse); //so that means this is a string of "joke" JSON
@@ -80,8 +84,14 @@
               //get the amouut left that user can spend
               leftOver = (Number(obj[0].budget)) - totalUsed;
 
+              //get budget for day month and week using the total
+              let month = leftOver;
+              let day = month/30;
+              let week = month/4;
+
               container.innerHTML = `
-              <span>Budget: $${Number(obj[0].budget).toFixed(2)}   |   Total Spent: $${totalUsed.toFixed(2)}   |   Money left to spend: $${leftOver.toFixed(2)}</span>
+              <p>Budget: $${Number(obj[0].budget).toFixed(2)}   |   Total Spent: $${totalUsed.toFixed(2)}   |   Money left to spend: $${leftOver.toFixed(2)}</p>
+              <p>Left for a month: ${month.toFixed(2)}    |    Left for a week: ${week.toFixed(2)}    |    Left for a day: ${day.toFixed(2)}</p>
               `;
             }
           }
@@ -91,13 +101,20 @@
             if(obj[0].budget === "You don't have a budget. Go enter one on the Edit Page!"){
             container.innerHTML = "<p>You don't have a budget. Go enter one on the Edit Page!</p>";
             } else {
+
+            //get budget for day month and week using the total
+            let month = Number(obj[0].budget);
+            let day = month/30;
+            let week = month/4;
             container.innerHTML = `
-            <span>Budget: $${Number(obj[0].budget).toFixed(2)}</span>
+            <p>Budget: $${Number(obj[0].budget).toFixed(2)}</p>
+            <p>Total for a month: ${month.toFixed(2)}    |    Total for a week: ${week.toFixed(2)}    |    Total for a day: ${day.toFixed(2)}</p>
             `;
             }
           }
       }
 
+      //method to get all the expenses on ther server side to the client 
       const downloadExpense = (e) => {
         // remember that an `Event` object gets passed along every time that an event handler or listener calls a function
         // the `target` property of that event points at the element that sent the event, in this case a button
@@ -114,6 +131,7 @@
         xhr.send();
       };
 
+      //method to get the budget from the server side to the client 
       const downloadBudget = () => {
         // remember that an `Event` object gets passed along every time that an event handler or listener calls a function
         // the `target` property of that event points at the element that sent the event, in this case a button
@@ -131,10 +149,7 @@
         xhr.send();
       };
       
-      const init = () => {
-         // An Event *Handler*
-        // document.querySelector("#btnJoke").onclick = downloadJoke; // same as below, less typing, use which ever version you prefer
-      
+      const init = () => {      
         // An Event *Listener*
         downloadBudget();
       

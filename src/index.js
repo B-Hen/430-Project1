@@ -12,6 +12,8 @@ const jsonHandler = require('./jsonResponses.js');
 // 3 - locally this will be 3000, on Heroku it will be assigned
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
+// struct to hold all the endpoint URLs and which handler method to
+// go with it
 const urlStruct = {
   '/random-joke': jsonHandler.getRandomJokeResponse,
   '/random-jokes': jsonHandler.getRandomJokeResponse,
@@ -32,7 +34,9 @@ const urlStruct = {
   notFound: htmlHandler.get404Response,
 };
 
+// method to handle all the Post Request
 const handlePost = (request, response, parsedUrl) => {
+  // check to see if the user wants to add to the budget
   if (parsedUrl.pathname === '/addBudget') {
     const body = [];
 
@@ -53,6 +57,7 @@ const handlePost = (request, response, parsedUrl) => {
 
       jsonHandler.addBudget(request, response, bodyParams);
     });
+    // check to see if the user wants to add an expense
   } else if (parsedUrl.pathname === '/addExpense') {
     const body = [];
 
@@ -73,6 +78,7 @@ const handlePost = (request, response, parsedUrl) => {
 
       jsonHandler.addExpense(request, response, bodyParams);
     });
+    // Check to see if the user wants to clear all the expenses
   } else if (parsedUrl.pathname === '/clear') {
     const body = [];
 
@@ -93,6 +99,7 @@ const handlePost = (request, response, parsedUrl) => {
 
       jsonHandler.clearBudget(request, response, bodyParams);
     });
+    // else check to see if the user just wants to delete on expense
   } else if (parsedUrl.pathname === '/delete') {
     const body = [];
 
@@ -120,7 +127,7 @@ const handlePost = (request, response, parsedUrl) => {
 // this time we will look at the `pathname`, and send back the appropriate page
 // note that in this course we'll be using arrow functions 100% of the time in our server-side code
 const onRequest = (request, response) => {
-  // console.log(request.headers);
+  // get the URL and any parameters that are with it
   const parseURL = url.parse(request.url);
   const { pathname } = parseURL;
   const paramas = query.parse(parseURL.query);
@@ -135,6 +142,7 @@ const onRequest = (request, response) => {
     let acceptedTypes = request.headers.accept && request.headers.accept.split(',');
     acceptedTypes = acceptedTypes || [];
 
+    // check to see if the GET request URL is in the struct and if not error
     if (urlStruct[pathname]) {
       urlStruct[pathname](request, response, limit, acceptedTypes, httpMethod);
     } else {

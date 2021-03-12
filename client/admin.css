@@ -151,3 +151,55 @@ a:active{
     color:#86A873;
 }
 
+label {
+    display: flex;
+    flex-direction: column;
+    background-color: #5AAA95;
+    font-size: 15px;
+}
+
+form{
+    background-color: #5AAA95;
+}
+
+input{
+    background-color: white;
+}
+
+.submit{
+    background-color: #BB9F06;
+    border: 2px solid #095256;
+    border-radius: 1vw;
+    text-align:center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 30%;
+}
+
+.submit:hover {
+    background-color: #087F8C;
+}
+
+.submit:active {
+    background-color: #5AAA95;
+    box-shadow: 0px 10px 3px #095256;
+    transform: translate(3px);
+}
+
+input{
+    width: 60%;
+    padding: 2px;
+    border: 3px solid #095256;
+    border-radius: 3vw;
+}
+form .addExpense{
+    background-color: #5AAA95;
+}
+
+p {
+    background-color: #5AAA95;
+}
+

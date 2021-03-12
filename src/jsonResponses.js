@@ -1,11 +1,9 @@
 // array of jokes
 const _ = require('underscore');
 
+// array to hold the objects of the budget
 const budget = [
-  // { budget: 1000 },
-  // {
-  //  item: 'PS5', cost: 530.99, type: 'Game', necessary: 'No', index: 1,
-  // },
+
 ];
 
 // function to get jokes for JSON
@@ -15,9 +13,6 @@ const getRandomJokeJSON = (numberOfJokes) => {
   limit = !limit ? 1 : limit; // if limit is not a number because it is the "falsy" NAN default to 1
   limit = limit < 1 ? 1 : limit; // if limit is less than 1 default it to 1
   limit = limit > budget.length ? budget.length : limit; // make limit length
-
-  // next shuffel the jokes in the array and sav to new array
-  // const jokes2 = _.shuffle(jokes);
 
   const budget3 = []; // new array to reutrn
 
@@ -52,6 +47,8 @@ const getRandomJokeXML = (numberOfJokes) => {
     }
   }
 
+  // check to see if there is more than one element to be returned
+  // if not just one return the whole array
   if (limit === 1) return budget3[0];
 
   return `<expenses>${budget3}</expenses>`;
@@ -61,6 +58,7 @@ const getRandomJokeXML = (numberOfJokes) => {
 // Refactored to an arrow function by ACJ
 const getBinarySize = (string) => Buffer.byteLength(string, 'utf8');
 
+// return the API endpoints either by XML or JSON
 const getRandomJokeResponse = (request, response, params = 1, acceptedTypes = 'application/json', httpMethod) => {
   // check to see that "text/xml" is in the acceptedTypes
   if (acceptedTypes.includes('text/xml')) {
@@ -84,12 +82,14 @@ const getRandomJokeResponse = (request, response, params = 1, acceptedTypes = 'a
   }
 };
 
+// method that will return the object in JSON form
 const respondJSON = (request, response, status, object) => {
   response.writeHead(status, { 'Content-Type': 'application/json' });
   response.write(JSON.stringify(object));
   response.end();
 };
 
+// method that will return only the headers
 const respondJSONMeta = (request, response, status) => {
   response.writeHead(status, { 'Content-Type': 'application/json' });
   response.end();
@@ -163,6 +163,7 @@ const addExpense = (request, response, body) => {
   return respondJSON(request, response, responseCode, responseJSON);
 };
 
+// method to clear all the expenses
 const clearBudget = (request, response, body) => {
   const responseJSON = {
     message: 'You need to add all the parameters!',
@@ -176,6 +177,7 @@ const clearBudget = (request, response, body) => {
   return respondJSON(request, response, responseCode, responseJSON);
 };
 
+// method to delete an indivdual element
 const deleteExpense = (request, response, body) => {
   const responseJSON = {
     message: "Can't Delete Expense",
@@ -192,6 +194,7 @@ const deleteExpense = (request, response, body) => {
   return respondJSON(request, response, responseCode, responseJSON);
 };
 
+// export the functions to use in index
 module.exports = {
   getRandomJokeResponse,
   getBudget,
